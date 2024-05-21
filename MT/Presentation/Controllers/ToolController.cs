@@ -11,13 +11,17 @@ namespace Presentation.Controllers
         {
             ScraperModel scraperModel = new ScraperModel();
             if (!string.IsNullOrEmpty(url))
-            {              
+            {
                 scraperModel.Emails = Scraper.ExtractEmails(url);
-                if(scraperModel.Emails.Count() > 0) scraperModel.IsFound = true;
+                if (scraperModel.Emails.Count() > 0)
+                {
+                    scraperModel.IsFound = true;
+                    ViewBag.NotFound = "yes";
+                }
 
-                if(exportCSV && scraperModel.Emails.Any())
+                else ViewBag.NotFound = "no";
+                if (exportCSV && scraperModel.Emails.Any())
                     return ExportEmailsToCSV(scraperModel.Emails);
-
             }
             return View(scraperModel);
         }

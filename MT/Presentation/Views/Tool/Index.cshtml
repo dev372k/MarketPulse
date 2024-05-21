@@ -3,13 +3,14 @@
 @{
     ViewData["Title"] = "Tool";
     string url = Context.Request.Query["url"];
+    string isFound = ViewBag.NotFound as string;
 }
 
 <div class="col-md-4 mx-auto">
     <div>
         <form id="urlForm" class="input-group mb-3">
             <input type="url" class="form-control" placeholder="URL" name="url" value="@url">
-            <input value="false" name="exportCSV" id="exportCSV" hidden/>
+            <input value="false" name="exportCSV" id="exportCSV" hidden />
             <button type="submit" class="btn btn-primary input-group-text" id="basic-addon1">Extract</button>
         </form>
     </div>
@@ -28,12 +29,12 @@
 
                 <div>
                     <a onclick="openModal()" class="btn btn-primary">Save</a>
-                    <a onclick="exportCSV()" class="btn btn-secondary">Save as Excel</a>
+                    <a onclick="exportCSV()" class="btn btn-success">Save as Excel</a>
                     <a onclick="reset()" class="btn btn-secondary">Reset</a>
                 </div>
             }
         }
-        else
+        else if (!string.IsNullOrEmpty(isFound) && Model.IsFound == false)
         {
             <div class="alert alert-warning" role="alert">
                 No email(s) found!!!
