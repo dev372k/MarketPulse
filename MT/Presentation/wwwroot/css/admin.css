@@ -5,7 +5,8 @@
     --green: #2ECC71 !important;
     --grey: lightgrey !important;
     --main-theme: --white !important;
-    --main-theme-text-color: #A569BD !important
+    --main-theme-text-color: #A569BD !important;
+    --purple: #800020 !important
 }
 .sidebar {
     position: fixed;
@@ -21,6 +22,7 @@
 .bg-light {
     background-color: var(--main-theme) !important;
 }
+
 
 @media (max-width: 767.98px) {
     .sidebar {
@@ -48,7 +50,7 @@
 
     .sidebar .nav-link.active {
         color: var(--white);
-        background: #A569BD;
+        background: var(--purple);
     }
 
 

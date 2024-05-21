@@ -20,3 +20,25 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/*Bootstrap Overides*/
+
+.form-control:focus{
+    box-shadow: none !important;
+    border: 1px solid var(--purple)
+}
+.btn{
+
+    border: none !important;
+}
+.btn-primary {
+    background-color: var(--purple) !important;
+}
+
+.btn:focus, .btn:active{
+    box-shadow: none !important;
+}
+
+.modal-footer{
+    border-top: none !important;
+}
