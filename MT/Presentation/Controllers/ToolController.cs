@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Presentation.Models;
 using Shared.Helpers;
 using System.Text;
@@ -7,6 +8,7 @@ namespace Presentation.Controllers
 {
     public class ToolController : Controller
     {
+        [HttpGet, Authorize]
         public IActionResult Index(string url = "", bool exportCSV = false)
         {
             ScraperModel scraperModel = new ScraperModel();
