@@ -42,3 +42,38 @@ body {
 .modal-footer{
     border-top: none !important;
 }
+
+.gridjs-head {
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+    justify-content: flex-end;
+}
+
+td.gridjs-td,
+th.gridjs-th {
+    border: none !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    /* box-sizing: content-box;
+            padding: 12px 24px; */
+}
+
+.custom-btn {
+    /* background: var(--main);
+            border-radius: var(--border-radius); */
+    padding: 3%;
+    color: var(--main);
+    font-weight:bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.add-btn-position {
+    position: relative;
+    top: 50px;
+}
+
+.margin-top{
+    margin-top: 15%
+}
