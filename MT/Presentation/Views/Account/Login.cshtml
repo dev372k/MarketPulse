@@ -9,6 +9,7 @@
         <h4>Marketing<span class="logo-third">It</span></h4>
     </div>
     <form asp-action="Login">
+        <input type="hidden" asp-for="ReturnUrl" value="@ViewData["ReturnUrl"]" />  
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Email" class="control-label"></label>

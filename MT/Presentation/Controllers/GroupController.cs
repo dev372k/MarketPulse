@@ -1,11 +1,12 @@
 ﻿using Application.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
     public class GroupController : Controller
     {
-        [HttpGet("Groups")]
+        [HttpGet("Groups"),Authorize]
         public IActionResult Index()
         {
             return View();
