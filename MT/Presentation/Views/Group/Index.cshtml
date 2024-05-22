@@ -1,9 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Groups";
 }
-<link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+
 <div>
-    <button class="btn btn-primary" onclick="openModal()">
+    <button class="btn btn-primary" id="openModal">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
         </svg>
@@ -12,41 +12,77 @@
     <div id="wrapper"></div>
 </div>
 
-<div class="d-none">
-    <div id="alert-message-template">
-        <div>
-            <h6>Name</h6>
-        </div>
-        <input class="form-control" id="group-name" />
+<div id="modaal-content" style="display: none;">
+    <div class="text-center">
+        <h3>Group</h3>
     </div>
+    <form id="groupForm">
+        <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" id="group_name" name="group_name" data-parsley-trigger="change" required />
+        </div>
+        <div class="form-group d-grid my-2">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
 </div>
-
 @section scripts {
+    <script src="https://unpkg.com/just-validate@4.0.0/dist/just-validate.production.min.js"></script>
     <script>
         let grid = {}
         $(document).ready(() => {
+
+            const validation = new window.JustValidate('#groupForm');
+
+            validation
+                .addField('#group_name', [
+                    {
+                        rule: 'required',
+                        errorMessage: 'Name is required',
+                    }
+                ])
+                .onSuccess((event) => {
+                    event.preventDefault();
+
+                    const data = { name: $("#group_name").val() };
+                    request('@Url.Action("Post", "Group")', 'POST', data)
+                        .then(data => {
+                            grid.forceRender()
+
+                        })
+                        .catch(error => console.error(error));
+                });
+
+
+            $('#openModal').modaal({
+                content_source: '#modaal-content',
+                after_close: function () {
+                    $("#groupForm").trigger("reset")
+                }
+            });
+
             grid = new gridjs.Grid({
                 columns: ["Name", "Created On", "Action"],
                 server: {
                     url: '@Url.Action("Get", "Group")',
-                    then: data => data.data.map(res => {
+                    then: data => data.data.item.map(res => {
                         return [
                             res.name,
                             res.createdOn,
                             html`<div>
-                                                            <a class="custom-btn" onclick="deleteitem(${res.id})">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                                                        </svg>
-                                                    </a>
-                                                            <a class="custom-btn" onclick="editItem(${res.id})">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                                        </svg>
-                                                    </a>
-                                                </div>`
+                                            <a class="custom-btn" onclick="deleteitem(${res.id})">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                </svg>
+                                            </a>
+                                            <a class="custom-btn" onclick="editItem(${res.id})">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                                </svg>
+                                            </a>
+                                        </div>`
                         ];
                     }),
                     total: data => data.data.totalCount
@@ -60,7 +96,7 @@
                     }
                 },
                 pagination: {
-                    limit: 2,
+                    limit: 5,
                     summary: false,
                     // resetPageOnUpdate: true,
                     server: {
@@ -76,24 +112,7 @@
             grid.render(document.getElementById("wrapper"));
         });
 
-
-        const openModal = () => {
-            debugger
-            bootbox.alert($('#alert-message-template'), () => {
-                add()
-            });
-        }
-
-        const add = () => {
-            debugger
-            const data = { name: $("#group-name").val() };
-            request('@Url.Action("Post", "Group")', 'POST', data)
-                .then(data => console.log(data))
-                .catch(error => console.error(error));
-        }
-
         const deleteitem = (id) => {
-            debugger
             request(`@Url.Action("Delete", "Group")?id=${id}`, 'DELETE')
                 .then(data => {
                     grid.forceRender()

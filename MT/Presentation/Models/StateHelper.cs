@@ -12,10 +12,10 @@ namespace Presentation.Models
         public StateHelper(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
-            _userData = GetUserData();
+            _userData = User();
         }
 
-        public GetUserDTO? GetUserData()
+        public GetUserDTO? User()
         {
             var userData = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.UserData);
             if (userData != null)

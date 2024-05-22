@@ -1,3 +1,5 @@
+using Application.Abstractions.Implementations;
+using Application.Abstractions.Interfaces;
 using Application.Implementations;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
@@ -23,6 +25,7 @@ builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDi
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<StateHelper>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
+builder.Services.AddScoped<IGroupRepo, GroupRepo>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
