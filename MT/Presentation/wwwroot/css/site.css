@@ -1,45 +1,46 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 /*Bootstrap Overides*/
 
-.form-control:focus{
+.form-control:focus {
     box-shadow: none !important;
     border: 1px solid var(--purple)
 }
-.btn{
 
+.btn {
     border: none !important;
 }
+
 .btn-primary {
     background-color: var(--purple) !important;
 }
 
-.btn:focus, .btn:active{
+.btn:focus, .btn:active {
     box-shadow: none !important;
 }
 
-.modal-footer{
+.modal-footer {
     border-top: none !important;
 }
 
@@ -54,19 +55,19 @@ td.gridjs-td,
 th.gridjs-th {
     border: none !important;
     border-bottom: 1px solid #e5e7eb !important;
-    /* box-sizing: content-box;
-            padding: 12px 24px; */
 }
 
 .custom-btn {
-    /* background: var(--main);
-            border-radius: var(--border-radius); */
     padding: 3%;
-    color: var(--main);
-    font-weight:bold;
+    color: var(--purple);
+    font-weight: bold;
     text-decoration: none;
     cursor: pointer;
 }
+
+    .custom-btn:hover {
+        color: var(--purple);
+    }
 
 
 .add-btn-position {
@@ -74,10 +75,39 @@ th.gridjs-th {
     top: 50px;
 }
 
-.margin-top{
+.margin-top {
     margin-top: 10%
 }
 
-.modaal-container{
+.modaal-container {
     width: 40% !important;
 }
+.ajs-button {
+    background-color: var(--purple) !important;
+    color: var(--white);
+    border: none !important;
+    box-shadow: none !important;
+}
+
+    .ajs-button:focus, .ajs-button:active {
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+.ajs-message{
+    color: var(--white)
+}
+
+.gridjs-input{
+    /*border:1px solid var(--purple) !important;*/
+    box-shadow: none !important
+}
+
+.gridjs-input:focus {
+    border:1px solid var(--purple) !important;
+}
+
+/*.gridjs-currentPage:active {
+    border: 1px solid var(--purple) !important;
+    box-shadow: none !important
+}*/

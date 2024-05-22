@@ -31,6 +31,18 @@ namespace Application.Abstractions.Implementations
             _context.SaveChanges();
         }
 
+        public void Update(int userId, UpdateGroupDTO dto)
+        {
+            var group = _context.Groups.FirstOrDefault(_ => _.Id == dto.Id);
+
+            if (group != null)
+            {
+                group.Name = dto.Name;
+                group.UpdatedOn = DateTime.Now;
+                _context.SaveChanges();
+            }
+        }
+
         public GetTodoDTOs Get(int userId, int pageNo, int pageSize, string search)
         {
             var query = _context.Groups.AsQueryable();
@@ -42,7 +54,7 @@ namespace Application.Abstractions.Implementations
                     Id = _.Id,
                     Name = _.Name,
                     CreatedOn = _.CreatedOn.ToString("dd MMMM, yyyy")
-                }).Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
+                }).OrderByDescending(_ => _.Id).Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
 
 
             return new GetTodoDTOs
@@ -50,8 +62,19 @@ namespace Application.Abstractions.Implementations
                 Item = groups,
                 PageNo = pageNo,
                 PageSize = pageSize,
-                TotalCount = query.Count()
+                TotalCount = string.IsNullOrEmpty(search) ? query.Count() : groups.Count()
             };
+        }
+
+        public void Delete(int id)
+        {
+            var group = _context.Groups.FirstOrDefault(_ => _.Id == id);
+
+            if (group != null)
+            {
+                group.IsDeleted = true; 
+                _context.SaveChanges();
+            }
         }
     }
 }

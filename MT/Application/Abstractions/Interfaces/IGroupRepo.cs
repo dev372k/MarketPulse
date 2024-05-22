@@ -14,5 +14,8 @@ namespace Application.Abstractions.Interfaces
 
         void Add(int userId, AddGroupDTO dto);
 
+        void Update(int userId, UpdateGroupDTO dto);
+
+        void Delete(int id);
     }
 }

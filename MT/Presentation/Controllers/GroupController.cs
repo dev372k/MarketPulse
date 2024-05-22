@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Implementations;
 using Application.Abstractions.Interfaces;
 using Application.DTOs;
+using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Models;
@@ -43,13 +44,15 @@ namespace Presentation.Controllers
         [HttpPut]
         public IActionResult Put([FromBody] UpdateGroupDTO request)
         {
-            return Ok();
+            _groupRepo.Update(_stateHelper.User().Id, request);
+            return Ok(new ResponseModel { Message = "Group updated successfully." });
         }
 
         [HttpDelete]
         public IActionResult Delete([FromQuery] int id)
         {
-            return Ok();
+            _groupRepo.Delete(id);
+            return Ok(new ResponseModel { Message = "Group deleted successfully." });
         }
     }
 }
