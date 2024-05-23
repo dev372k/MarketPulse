@@ -134,9 +134,11 @@
         });
 
         const deleteitem = (id) => {
+            loading("show")
             request(`@Url.Action("Delete", "Group")?id=${id}`, 'DELETE')
                 .then(data => {
                     grid.forceRender()
+                    loading("hide")
                     alertify.success(data.message);
                 })
                 .catch(error => console.error(error));
