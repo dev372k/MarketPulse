@@ -6,7 +6,7 @@
     --grey: lightgrey !important;
     --main-theme: --white !important;
     --main-theme-text-color: #A569BD !important;
-    --purple: #800020 !important
+    --purple: #1F618D !important
 }
 .sidebar {
     position: fixed;
@@ -57,4 +57,8 @@
 .form-check-input:focus {
     box-shadow: none !important;
     border: var(--green) !important
+}
+
+.modaal-close:focus:after, .modaal-close:focus:before, .modaal-close:hover:after, .modaal-close:hover:before {
+    background: var(--purple) !important;
 }

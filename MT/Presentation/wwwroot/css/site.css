@@ -124,3 +124,7 @@ th.gridjs-th {
     top: 50px;
     z-index: 1
 }
+
+.ss-value{
+    background: var(--purple) !important
+}
