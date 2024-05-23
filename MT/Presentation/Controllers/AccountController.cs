@@ -96,6 +96,14 @@ namespace Presentation.Controllers
             }
         }
 
+
+        [HttpGet]
+        public IActionResult Profile()
+        {
+            return View(_stateHelper.User());
+        }
+
+
         [HttpGet("Logout"), Authorize]
         public IActionResult Logout()
         {

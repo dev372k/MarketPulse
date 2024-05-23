@@ -26,28 +26,35 @@ namespace Shared.Helpers
 
         public static List<string> ExtractEmails(string url)
         {
-            string html = GetHtmlAsync(url).GetAwaiter().GetResult();
-            List<string> emails = new List<string>();
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(html);
-
-            // Regular expression to match email addresses
-            string emailPattern = @"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}";
-            Regex regex = new Regex(emailPattern);
-
-            foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//text()[not(ancestor::script) and not(ancestor::style)]"))
+            try
             {
-                MatchCollection matches = regex.Matches(node.InnerText);
-                foreach (Match match in matches)
+                string html = GetHtmlAsync(url).GetAwaiter().GetResult();
+                List<string> emails = new List<string>();
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(html);
+
+                // Regular expression to match email addresses
+                string emailPattern = @"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}";
+                Regex regex = new Regex(emailPattern);
+
+                foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//text()[not(ancestor::script) and not(ancestor::style)]"))
                 {
-                    if (!emails.Contains(match.Value))
+                    MatchCollection matches = regex.Matches(node.InnerText);
+                    foreach (Match match in matches)
                     {
-                        emails.Add(match.Value);
+                        if (!emails.Contains(match.Value))
+                        {
+                            emails.Add(match.Value);
+                        }
                     }
                 }
-            }
 
-            return emails;
+                return emails;
+            }
+            catch (Exception)
+            {
+                return new List<string>();
+            }
         }
     }
 }
