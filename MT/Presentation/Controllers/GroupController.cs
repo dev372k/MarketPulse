@@ -34,6 +34,14 @@ namespace Presentation.Controllers
             return Ok(new ResponseModel { Data = res });
         }
 
+        [HttpGet]
+        public IActionResult GetDropdown()
+        {
+            var res = _groupRepo.Get(_stateHelper.User().Id);
+
+            return Ok(new ResponseModel { Data = res });
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] AddGroupDTO request)
         {

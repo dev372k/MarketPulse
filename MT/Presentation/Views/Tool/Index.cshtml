@@ -58,39 +58,64 @@
 
 <div id="modaal-content" style="display: none;">
     <div class="text-center">
-        <h3>Email</h3>
+        <h3>Groups</h3>
     </div>
     <form id="groupForm">
         <input id="group_id" hidden />
         <div class="form-group">
             <label>Group by</label>
             <select id="slim-select" multiple>
-                <option value="Option 1">Option 1</option>
-                <option value="Option 2">Option 2</option>
-                <option value="Option 3">Option 3</option>
+                <option data-placeholder="true"></option>
             </select>
         </div>
         <div class="form-group d-grid my-2">
-            <input type="submit" value="Save" class="btn btn-primary" />
+            <input type="submit" value="Save All" class="btn btn-primary" />
         </div>
     </form>
 </div>
 
 @section scripts {
     <script>
+        let groupbyDrp = {}
         $(document).ready(() => {
             $('#openModal').modaal({
                 content_source: '#modaal-content',
                 after_close: function () {
                     $("#groupForm").trigger("reset")
+                },
+                before_open: function () {
+                    renderDropdown()
                 }
             });
-            new SlimSelect({
-                select: '#slim-select'
-            });
         })
+
+        const renderDropdown =()=>{
+            loading("show")
+            request("@Url.Action("GetDropdown", "Group")", "GET")
+                .then(data => {
+                    const formattedData = data.data.map(item => ({
+                        text: item.text,
+                        value: item.value
+                    }));
+
+                    groupbyDrp = new SlimSelect({
+                        select: '#slim-select',
+                        data: formattedData,
+                        settings: {
+                            placeholderText: 'Select Group(s)',
+                        }
+                    });
+                    loading("hide")
+                })
+                .catch(error => console.error('Error fetching data:', error)); // Handle potential errors
+        }
+
+         const onChangedrp = () => {
+            slimSelect.selected()
+         }
+
         const reset = () => {
-           window.location.reload('@Url.Action("Index", "Tool")')
+            window.location.reload('@Url.Action("Index", "Tool")')
         }
 
         const exportCSV = () => {
