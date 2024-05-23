@@ -103,6 +103,11 @@ namespace Presentation.Controllers
             return View(_stateHelper.User());
         }
 
+        [HttpPut]
+        public IActionResult Put([FromBody] UpdateUserDTO request)
+        {
+            return Ok(new ResponseModel { Message = "User updated successfully." });
+        }
 
         [HttpGet("Logout"), Authorize]
         public IActionResult Logout()
