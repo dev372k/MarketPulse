@@ -112,7 +112,7 @@
                     </ul>
                 </div>
             </nav>
-            <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4 main-box">
                 <h3>@ViewData["Title"]</h3>
                 @RenderBody()
             </main>
@@ -127,6 +127,8 @@
     <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/modaal@0.4.4/dist/js/modaal.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
     <script src="~/js/site.js"></script>
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false)

@@ -111,3 +111,16 @@ th.gridjs-th {
     border: 1px solid var(--purple) !important;
     box-shadow: none !important
 }*/
+
+/*.main-box {*/
+    /*margin: 100px;*/
+    /*box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    height: 100%;
+    max-height: 100px
+}*/
+
+.btn-relative-position {
+    position: relative;
+    top: 50px;
+    z-index: 1
+}
