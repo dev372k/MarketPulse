@@ -6,5 +6,6 @@
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
         public ICollection<Group> Groups { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }

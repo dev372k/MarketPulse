@@ -11,7 +11,9 @@ function html(strings, ...values) {
 }
 
 
-async function request(url, method, data = null) {
+const cache = {};
+
+async function request(url, method, data = null, iscache = false) {
     const options = {
         method: method,
         headers: {
@@ -23,6 +25,13 @@ async function request(url, method, data = null) {
         options.body = JSON.stringify(data);
     }
 
+    // Check the cache for GET requests
+    if (iscache && method.toUpperCase() === 'GET') {
+        if (cache[url]) {
+            return cache[url];
+        }
+    }
+
     try {
         const response = await fetch(url, options);
         const responseData = await response.json();
@@ -31,11 +40,17 @@ async function request(url, method, data = null) {
             throw new Error(responseData.message || 'Something went wrong');
         }
 
+        // Cache the response if iscache is true
+        if (iscache && method.toUpperCase() === 'GET') {
+            cache[url] = responseData;
+        }
+
         return responseData;
     } catch (error) {
         throw new Error(error.message || 'Something went wrong');
     }
 }
+
 
 $.LoadingOverlaySetup({
     background: "rgba(0, 0, 0, 0.5)",

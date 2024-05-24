@@ -22,23 +22,23 @@
             {
                 foreach (var email in Model.Emails)
                 {
-                    <div class="alert alert-dark" role="alert">
-                        @email
-                    </div>
+                        <div class="alert alert-dark" role="alert">
+                            @email
+                        </div>
                 }
 
-                <div>
-                    <a id="openModal" class="btn btn-primary">Save</a>
-                    <a onclick="exportCSV()" class="btn btn-success">Save as Excel</a>
-                    <a href="@Url.Action("Index", "Tool")" class="btn btn-secondary">Reset</a>
-                </div>
+                    <div>
+                        <a id="openModal" class="btn btn-primary">Save</a>
+                        <a onclick="exportCSV()" class="btn btn-success">Save as Excel</a>
+                        <a href="@Url.Action("Index", "Tool")" class="btn btn-secondary">Reset</a>
+                    </div>
             }
         }
         else if (!string.IsNullOrEmpty(isFound) && Model.IsFound == false)
         {
-            <div class="alert alert-warning" role="alert">
-                No email(s) found!!!
-            </div>
+                <div class="alert alert-warning" role="alert">
+                    No email(s) found!!!
+                </div>
         }
     }
 </div>
@@ -77,6 +77,7 @@
 @section scripts {
     <script>
         let groupbyDrp = {}
+        let reload = true
         $(document).ready(() => {
             $('#openModal').modaal({
                 content_source: '#modaal-content',
@@ -93,18 +94,21 @@
             loading("show")
             request("@Url.Action("GetDropdown", "Group")", "GET")
                 .then(data => {
-                    const formattedData = data.data.map(item => ({
-                        text: item.text,
-                        value: item.value
-                    }));
+                    if (reload) {
+                        const formattedData = data.data.map(item => ({
+                            text: item.text,
+                            value: item.value
+                        }));
 
-                    groupbyDrp = new SlimSelect({
-                        select: '#slim-select',
-                        data: formattedData,
-                        settings: {
-                            placeholderText: 'Select Group(s)',
-                        }
-                    });
+                        groupbyDrp = new SlimSelect({
+                            select: '#slim-select',
+                            data: formattedData,
+                            settings: {
+                                placeholderText: 'Select Group(s)',
+                            }
+                        });
+                        reload = false
+                    }
                     loading("hide")
                 })
                 .catch(error => console.error('Error fetching data:', error)); // Handle potential errors

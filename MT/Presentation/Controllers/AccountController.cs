@@ -27,6 +27,7 @@ namespace Presentation.Controllers
             _notyf = notyf;
             _stateHelper = stateHelper;
         }
+
         [HttpGet]
         public IActionResult Register()
         {
