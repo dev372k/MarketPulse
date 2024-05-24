@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.Entities
 {
-    public class Customer
+    public class Customer : Base
     {
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;

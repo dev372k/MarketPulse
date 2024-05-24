@@ -26,6 +26,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<StateHelper>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IGroupRepo, GroupRepo>();
+builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

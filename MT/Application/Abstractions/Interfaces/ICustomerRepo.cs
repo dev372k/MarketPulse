@@ -9,14 +9,14 @@ using System.Web.Mvc;
 
 namespace Application.Abstractions.Interfaces
 {
-    public interface IGroupRepo
+    public interface ICustomerRepo
     {
-        GetGroupDTOs Get(int userId, int pageNo, int pageSize, string search);
+        GetCustomerDTOs Get(int userId, int pageNo, int pageSize, string search);
         List<SelectListItem> Get(int userId);
 
-        void Add(int userId, AddGroupDTO dto);
+        void Add(int userId, AddCustomerDTO dto);
 
-        void Update(int userId, UpdateGroupDTO dto);
+        void Update(int userId, UpdateCustomerDTO dto);
 
         void Delete(int id);
     }

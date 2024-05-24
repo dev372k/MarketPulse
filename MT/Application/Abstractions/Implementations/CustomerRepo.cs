@@ -3,67 +3,74 @@ using Application.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Entities;
+using Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace Application.Abstractions.Implementations
 {
-    public class GroupRepo : IGroupRepo
+    public class CustomerRepo : ICustomerRepo
     {
         private ApplicationDBContext _context;
 
-        public GroupRepo(ApplicationDBContext context)
+        public CustomerRepo(ApplicationDBContext context)
         {
             _context = context;
         }
-        public void Add(int userId, AddGroupDTO dto)
+        public void Add(int userId, AddCustomerDTO dto)
         {
-            var group = new Persistence.Entities.Group
+            var customer = new Customer
             {
                 Name = dto.Name,
+                Email = dto.Email,
+                GroupTags = dto.Groups.toCSV(),
                 CreatedOn = DateTime.Now,
                 UserId = userId
             };
-            _context.Groups.Add(group);
+            _context.Customers.Add(customer);
             _context.SaveChanges();
         }
 
-        public void Update(int userId, UpdateGroupDTO dto)
+        public void Update(int userId, UpdateCustomerDTO dto)
         {
-            var group = _context.Groups.FirstOrDefault(_ => _.Id == dto.Id);
+            var customer = _context.Customers.FirstOrDefault(_ => _.Id == dto.Id);
 
-            if (group != null)
+            if (customer != null)
             {
-                group.Name = dto.Name;
-                group.UpdatedOn = DateTime.Now;
+                customer.Name = dto.Name;
+                customer.Email = dto.Email;
+                customer.GroupTags = dto.Groups.toCSV();
+                customer.UpdatedOn = DateTime.Now;
                 _context.SaveChanges();
             }
         }
 
-        public GetGroupDTOs Get(int userId, int pageNo, int pageSize, string search)
+        public GetCustomerDTOs Get(int userId, int pageNo, int pageSize, string search)
         {
-            var query = _context.Groups.Where(_ => _.UserId == userId).AsQueryable();
-            var groups = query
+            var query = _context.Customers.Where(_ => _.UserId == userId).AsQueryable();
+            var customers = query
                 .Where(_ => !string.IsNullOrEmpty(search) ? _.Name.ToLower().Contains(search.ToLower()) : true)
-                .Select(_ => new GetGroupDTO
+                .Select(_ => new GetCustomerDTO
                 {
                     Id = _.Id,
                     Name = _.Name,
+                    Email = _.Email,
+                    Groups = null,
                     CreatedOn = _.CreatedOn.ToString("dd MMMM, yyyy")
                 }).OrderByDescending(_ => _.Id).Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
 
-
-            return new GetGroupDTOs
+            return new GetCustomerDTOs
             {
-                Item = groups,
+                Item = customers,
                 PageNo = pageNo,
                 PageSize = pageSize,
-                TotalCount = string.IsNullOrEmpty(search) ? query.Count() : groups.Count()
+                TotalCount = string.IsNullOrEmpty(search) ? query.Count() : customers.Count()
             };
         }
 
@@ -73,14 +80,14 @@ namespace Application.Abstractions.Implementations
 
             if (group != null)
             {
-                group.IsDeleted = true;
+                group.IsDeleted = true; 
                 _context.SaveChanges();
             }
         }
 
         public List<SelectListItem> Get(int userId)
         {
-            return _context.Groups
+            return _context.Customers
                 .Where(_ => _.UserId == userId)
                 .Select(_ => new SelectListItem
                 {

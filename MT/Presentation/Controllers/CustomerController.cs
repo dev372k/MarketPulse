@@ -1,4 +1,7 @@
-﻿using Application.Implementations;
+﻿using Application.Abstractions.Implementations;
+using Application.Abstractions.Interfaces;
+using Application.DTOs;
+using Application.Implementations;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,15 +11,15 @@ namespace Presentation.Controllers
 {
     public class CustomerController : Controller
     {
-        private IUserRepo _userRepo;
+        private ICustomerRepo _customerRepo;
         private StateHelper _stateHelper;
         private readonly INotyfService _notyf;
 
-        public CustomerController(IUserRepo userRepo,
+        public CustomerController(ICustomerRepo customerRepo,
             INotyfService notyf,
              StateHelper stateHelper)
         {
-            _userRepo = userRepo;
+            _customerRepo = customerRepo;
             _notyf = notyf;
             _stateHelper = stateHelper;
         }
@@ -25,6 +28,35 @@ namespace Presentation.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Get([FromQuery] int pageNo = 1, [FromQuery] int pageSize = 10, [FromQuery] string search = "")
+        {
+            var res = _customerRepo.Get(_stateHelper.User().Id, pageNo == 0 ? 1 : pageNo, pageSize, search);
+
+            return Ok(new ResponseModel { Data = res });
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] AddCustomerDTO request)
+        {
+            _customerRepo.Add(_stateHelper.User().Id,request);
+            return Ok(new ResponseModel { Message = "Customer added successfully." });
+        }
+
+        [HttpPut]
+        public IActionResult Put([FromBody] UpdateCustomerDTO request)
+        {
+            _customerRepo.Update(_stateHelper.User().Id,request);
+            return Ok(new ResponseModel { Message = "Customer updated successfully." });
+        }
+
+        [HttpDelete]
+        public IActionResult Delete([FromQuery] int id)
+        {
+            _customerRepo.Delete(id);
+            return Ok(new ResponseModel { Message = "Customer deleted successfully." });
         }
     }
 }

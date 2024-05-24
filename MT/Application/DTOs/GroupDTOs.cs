@@ -1,6 +1,6 @@
 ﻿namespace Application.DTOs
 {
-    public class GetTodoDTOs
+    public class GetGroupDTOs
     {
         public List<GetGroupDTO> Item { get; set; }
         public int TotalCount { get; set; }
@@ -24,5 +24,11 @@
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+    }
+
+    public class GroupDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

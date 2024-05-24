@@ -165,3 +165,12 @@ th.gridjs-th {
         color: white;
     }
 
+
+
+.custom-badge{
+    background: var(--purple);
+    color: white;
+    margin: 0px 2px;
+    padding:2px 10px;
+    border-radius: 5px
+}
