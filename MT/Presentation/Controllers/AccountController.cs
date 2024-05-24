@@ -98,7 +98,7 @@ namespace Presentation.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("Profile")]
         public IActionResult Profile()
         {
             return View(_stateHelper.User());
