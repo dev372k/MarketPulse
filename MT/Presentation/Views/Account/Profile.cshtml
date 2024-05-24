@@ -10,11 +10,11 @@
         </div>
         <div class="form-group my-2">
             <label>Name</label>
-            <input name="user_name" id="user_name" class="form-control" value="@Model.Name" />
+            <input name="user_name" id="user_name" class="form-control" value="@Model.Name" required />
         </div>
         <div class="form-group my-2">
             <label>Email</label>
-            <input name="user_email" id="user_email" class="form-control" value="@Model.Email" />
+            <input name="user_email" id="user_email" class="form-control" value="@Model.Email" required />
         </div>
         <div class="form-group d-grid my-2">
             <input type="submit" value="Save" class="btn btn-primary" />
@@ -22,8 +22,32 @@
     </form>
 </div>
 
-@section scripts{
+@section scripts {
     <script>
+        $(document).ready(() => {
+            const validation = new window.JustValidate('#profileForm');
 
+            validation
+                .addField('#user_name', [
+                    {
+                        rule: 'required',
+                        errorMessage: 'Name is required',
+                    }
+                ])
+
+                .onSuccess((event) => {
+                    debugger
+                    event.preventDefault();
+                    loading("show")
+
+                    const data = { id: $("#user_id").val(), name: $("#user_name").val(), email: $("#user_email").val() };
+                    request('@Url.Action("Put", "Account")', 'PUT', data)
+                        .then(data => {
+                            loading("hide")
+                            alertify.success(data.message);
+                        })
+                        .catch(error => console.error(error));
+                });
+        })
     </script>
 }
