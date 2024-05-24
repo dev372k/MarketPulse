@@ -39,7 +39,7 @@ a {
         left: 0;
         width: 100%;
         height: 100%;
-        opacity: 0.15; /* Adjust opacity as needed */
+        opacity: 0.10; /* Adjust opacity as needed */
         z-index: -1; /* Ensure the pseudo-element stays behind other content */
     }
 /*Bootstrap Overides*/
