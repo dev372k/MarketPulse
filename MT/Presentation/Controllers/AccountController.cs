@@ -106,6 +106,7 @@ namespace Presentation.Controllers
         [HttpPut]
         public IActionResult Put([FromBody] UpdateUserDTO request)
         {
+            _userRepo.Update(request);
             return Ok(new ResponseModel { Message = "User updated successfully." });
         }
 
