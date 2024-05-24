@@ -8,7 +8,7 @@ namespace Presentation.Controllers
 {
     public class ToolController : Controller
     {
-        [HttpGet, Authorize]
+        [Authorize]
         public IActionResult Index(string url = "", bool exportCSV = false)
         {
             ScraperModel scraperModel = new ScraperModel();

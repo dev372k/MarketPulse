@@ -1,5 +1,6 @@
 ﻿using Application.Implementations;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Models;
 
@@ -20,6 +21,7 @@ namespace Presentation.Controllers
             _stateHelper = stateHelper;
         }
 
+        [HttpGet("Customers"), Authorize]
         public IActionResult Index()
         {
             return View();

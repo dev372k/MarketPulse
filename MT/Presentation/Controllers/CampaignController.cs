@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
-    public class SettingsController : Controller
+    public class CampaignController : Controller
     {
-        [Authorize]
+        [HttpGet("Campaigns"), Authorize]
         public IActionResult Index()
         {
             return View();
