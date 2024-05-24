@@ -1,4 +1,5 @@
 ﻿
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace Application.DTOs
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+        public enSubscriptionType SubscriptionType { get; set; }
+        public DateTime PlanExpiry { get; set; }
         public bool IsDeleted { get; set; }
     }
 

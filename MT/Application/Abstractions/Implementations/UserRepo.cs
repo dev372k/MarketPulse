@@ -25,7 +25,8 @@ namespace Application.Implementations
             {
                 Name = dto.Name,
                 Email = dto.Email,
-                PasswordHash = SecurityHelper.GenerateHash(dto.Password)
+                PasswordHash = SecurityHelper.GenerateHash(dto.Password),
+                SubscriptionType = Shared.enSubscriptionType.Free
             };
             _context.Users.Add(user);
             _context.SaveChanges();
@@ -39,6 +40,8 @@ namespace Application.Implementations
                 Email = _.Email,
                 Name = _.Name,
                 Password = _.PasswordHash,
+                SubscriptionType = Shared.enSubscriptionType.Free,
+                PlanExpiry = _.CreatedOn.AddMonths(1),
             }).FirstOrDefault();
             return user;
         }
@@ -62,6 +65,8 @@ namespace Application.Implementations
                 Email = _.Email,
                 Name = _.Name,
                 Password = _.PasswordHash,
+                SubscriptionType = Shared.enSubscriptionType.Free,
+                PlanExpiry = _.CreatedOn.AddMonths(1),
                 IsDeleted = _.IsDeleted
             });
 

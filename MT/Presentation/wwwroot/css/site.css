@@ -17,6 +17,10 @@ html {
     min-height: 100%;
 }
 
+a {
+    text-decoration: none !important
+}
+
 .main-box {
     margin: 0;
     display: flex;
@@ -183,3 +187,10 @@ th.gridjs-th {
     color: var(--purple);
     font-weight: bold
 }
+
+
+/*.upgrade-btn {
+    position: relative;
+    bottom: 30px;
+    left: 520px
+}*/

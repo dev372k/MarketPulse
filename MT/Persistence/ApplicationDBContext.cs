@@ -11,6 +11,7 @@ namespace Persistence
         public DbSet<Group> Groups => Set<Group>();
         public DbSet<Customer> Customers => Set<Customer>();
         public DbSet<Campaign> Campaigns => Set<Campaign>();
+        public DbSet<Transaction> Transactions => Set<Transaction>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasQueryFilter(_ => !_.IsDeleted && _.IsActive);
