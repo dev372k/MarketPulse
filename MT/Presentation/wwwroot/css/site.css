@@ -17,10 +17,27 @@ html {
     min-height: 100%;
 }
 
-body {
-    margin-bottom: 60px;
+.main-box {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative; /* Make sure the pseudo-element is positioned relative to the body */
 }
 
+    .main-box::after {
+        content: "";
+        background-image: url("bg.jpg");
+        background-size: cover; /* Cover the entire container */
+        background-position: center; /* Center the image */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.20; /* Adjust opacity as needed */
+        z-index: -1; /* Ensure the pseudo-element stays behind other content */
+    }
 /*Bootstrap Overides*/
 
 .form-control:focus {
@@ -82,6 +99,7 @@ th.gridjs-th {
 .modaal-container {
     width: 40% !important;
 }
+
 .ajs-button {
     background-color: var(--purple) !important;
     color: var(--white);
@@ -94,18 +112,18 @@ th.gridjs-th {
         box-shadow: none !important;
     }
 
-.ajs-message{
+.ajs-message {
     color: var(--white)
 }
 
-.gridjs-input{
+.gridjs-input {
     /*border:1px solid var(--purple) !important;*/
     box-shadow: none !important
 }
 
-.gridjs-input:focus {
-    border:1px solid var(--purple) !important;
-}
+    .gridjs-input:focus {
+        border: 1px solid var(--purple) !important;
+    }
 
 /*.gridjs-currentPage:active {
     border: 1px solid var(--purple) !important;
@@ -113,8 +131,8 @@ th.gridjs-th {
 }*/
 
 /*.main-box {*/
-    /*margin: 100px;*/
-    /*box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+/*margin: 100px;*/
+/*box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     height: 100%;
     max-height: 100px
 }*/
@@ -125,6 +143,6 @@ th.gridjs-th {
     z-index: 1
 }
 
-.ss-value{
+.ss-value {
     background: var(--purple) !important
 }
