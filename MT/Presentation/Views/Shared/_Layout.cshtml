@@ -111,6 +111,12 @@
                 </div>
             </nav>
             <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4 main-box">
+                @if (_stateHelper.User().IsExpired)
+                {
+                    <div class="alert alert-danger text-center" role="alert">
+                        Your plan has expired, Please <a href="@Url.Action("Index", "Settings")">upgrade</a> your account
+                    </div>
+                }
                 <h3>@ViewData["Title"]</h3>
                 <div class="mt-2">
                     @RenderBody()

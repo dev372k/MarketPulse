@@ -1,5 +1,5 @@
 ﻿@model Presentation.Models.ScraperModel
-
+@inject StateHelper _statehelper
 @{
     ViewData["Title"] = "Tool";
     string url = Context.Request.Query["url"];
@@ -11,7 +11,14 @@
         <form id="urlForm" class="input-group mb-3">
             <input type="url" class="form-control" placeholder="URL" name="url" value="@url">
             <input value="false" name="exportCSV" id="exportCSV" hidden />
-            <button type="submit" class="btn btn-primary input-group-text" id="basic-addon1">Extract</button>
+            @if (!_statehelper.User().IsExpired)
+            {
+                <button type="submit" class="btn btn-primary input-group-text" id="basic-addon1">Extract</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-primary input-group-text cursor-not-allowed" disabled title="Your plan has expired">Extract</button>
+            }
         </form>
     </div>
 
@@ -30,7 +37,7 @@
                 }
 
                 <div>
-                    <input id="emails" hidden/>
+                    <input id="emails" hidden />
                     <a id="openModal" class="btn btn-primary">Save</a>
                     <a onclick="exportCSV()" class="btn btn-success">Save as Excel</a>
                     <a href="@Url.Action("Index", "Tool")" class="btn btn-secondary">Reset</a>
@@ -66,7 +73,7 @@
 
 @section scripts {
     <script>
-       
+
         let reload = true
         let slimSelectInstance;
         $(document).ready(() => {

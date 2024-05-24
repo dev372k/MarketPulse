@@ -21,6 +21,9 @@ a {
     text-decoration: none !important
 }
 
+.cursor-not-allowed{
+    cursor: not-allowed
+}
 .main-box {
     margin: 0;
     display: flex;
@@ -46,7 +49,7 @@ a {
 
 .form-control:focus {
     box-shadow: none !important;
-    border: 1px solid var(--purple)
+    border: 1px solid var(--main)
 }
 
 .btn {
@@ -54,7 +57,7 @@ a {
 }
 
 .btn-primary {
-    background-color: var(--purple) !important;
+    background-color: var(--main) !important;
 }
 
 .btn:focus, .btn:active {
@@ -80,14 +83,14 @@ th.gridjs-th {
 
 .custom-btn {
     padding: 3%;
-    color: var(--purple);
+    color: var(--main);
     font-weight: bold;
     text-decoration: none;
     cursor: pointer;
 }
 
     .custom-btn:hover {
-        color: var(--purple);
+        color: var(--main);
     }
 
 
@@ -105,7 +108,7 @@ th.gridjs-th {
 }
 
 .ajs-button {
-    background-color: var(--purple) !important;
+    background-color: var(--main) !important;
     color: var(--white);
     border: none !important;
     box-shadow: none !important;
@@ -126,7 +129,7 @@ th.gridjs-th {
 }
 
     .gridjs-input:focus {
-        border: 1px solid var(--purple) !important;
+        border: 1px solid var(--main) !important;
     }
 
 /*.gridjs-currentPage:active {
@@ -148,7 +151,7 @@ th.gridjs-th {
 }
 
 .ss-value {
-    background: var(--purple) !important
+    background: var(--main) !important
 }
 .ai-btn {
     background: linear-gradient(45deg, #8E2DE2, #4A00E0);
@@ -171,11 +174,11 @@ th.gridjs-th {
 
 
 
-.custom-badge{
-    background: var(--purple);
+.custom-badge {
+    background: var(--main);
     color: white;
     margin: 0px 2px;
-    padding:2px 10px;
+    padding: 2px 10px;
     border-radius: 5px
 }
 
@@ -184,8 +187,8 @@ th.gridjs-th {
     left: 60px;
 }
 
-.main-logo-second{
-    color: var(--purple);
+.main-logo-second {
+    color: var(--main);
     font-weight: bold
 }
 

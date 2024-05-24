@@ -31,6 +31,7 @@ namespace Application.DTOs
         public string Password { get; set; } = string.Empty;
         public enSubscriptionType SubscriptionType { get; set; }
         public DateTime PlanExpiry { get; set; }
+        public bool IsExpired { get; set; }
         public bool IsDeleted { get; set; }
     }
 
