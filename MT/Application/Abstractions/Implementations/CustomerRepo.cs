@@ -25,6 +25,10 @@ namespace Application.Abstractions.Implementations
         }
         public void Add(int userId, AddCustomerDTO dto)
         {
+
+            var isExist = _context.Customers.Any(_ => _.Email == dto.Email && _.UserId == userId);
+            if (isExist)
+                throw new Exception("Email already exist");
             var customer = new Customer
             {
                 Name = dto.Name,
@@ -45,7 +49,7 @@ namespace Application.Abstractions.Implementations
             {
                 customer.Name = dto.Name;
                 customer.Email = dto.Email;
-                customer.GroupTags = dto.Groups.toCSV();
+                customer.GroupTags = dto.Groups.toCSV() ?? "13";
                 customer.UpdatedOn = DateTime.Now;
                 _context.SaveChanges();
             }
@@ -76,11 +80,11 @@ namespace Application.Abstractions.Implementations
 
         public void Delete(int id)
         {
-            var group = _context.Groups.FirstOrDefault(_ => _.Id == id);
+            var customer = _context.Customers.FirstOrDefault(_ => _.Id == id);
 
-            if (group != null)
+            if (customer != null)
             {
-                group.IsDeleted = true; 
+                customer.IsDeleted = true; 
                 _context.SaveChanges();
             }
         }

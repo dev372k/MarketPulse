@@ -174,3 +174,12 @@ th.gridjs-th {
     padding:2px 10px;
     border-radius: 5px
 }
+
+.main-logo {
+    position: relative;left: 50px;
+}
+
+.main-logo-second{
+    color: var(--purple);
+    font-weight: bold
+}

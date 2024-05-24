@@ -41,8 +41,15 @@ namespace Presentation.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] AddCustomerDTO request)
         {
-            _customerRepo.Add(_stateHelper.User().Id,request);
-            return Ok(new ResponseModel { Message = "Customer added successfully." });
+            try
+            {
+                _customerRepo.Add(_stateHelper.User().Id, request);
+                return Ok(new ResponseModel { Message = "Customer added successfully." });
+            }
+            catch (Exception)
+            {
+                return Ok(new ResponseModel {Status = false, Message = "Customer already exist." });
+            }
         }
 
         [HttpPut]
