@@ -1,8 +1,4 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-function html(strings, ...values) {
+﻿function html(strings, ...values) {
     const htmlString = strings.reduce((result, string, i) => {
         const value = values[i] || '';
         return result + string + value;
@@ -25,7 +21,6 @@ async function request(url, method, data = null, iscache = false) {
         options.body = JSON.stringify(data);
     }
 
-    // Check the cache for GET requests
     if (iscache && method.toUpperCase() === 'GET') {
         if (cache[url]) {
             return cache[url];
@@ -64,7 +59,9 @@ $(document).ready(function () {
 });
 
 $(window).on('load', function () {
-    loading('hide');
+    setTimeout(() => {
+        loading('hide');
+    }, 1000)
 });
 
 const loading = (type) => {
