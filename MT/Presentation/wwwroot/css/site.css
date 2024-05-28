@@ -18,7 +18,8 @@ html {
 }
 
 a {
-    text-decoration: none !important
+    text-decoration: none !important;
+    cursor: pointer
 }
 
 .cursor-not-allowed{

@@ -41,5 +41,6 @@ namespace Presentation.Controllers
             byte[] buffer = Encoding.UTF8.GetBytes(csv.ToString());
             return File(buffer, "text/csv", $"emails-{DateTime.Now.Ticks}.csv");
         }
+
     }
 }

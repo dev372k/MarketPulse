@@ -21,7 +21,7 @@ namespace Application.Abstractions.Implementations
             var campaign = new Campaign
             {
                 Name = dto.Name,
-                Content = dto.Content,
+                Content = "",
                 CreatedOn = DateTime.Now,
                 UserId = userId
             };
@@ -64,7 +64,7 @@ namespace Application.Abstractions.Implementations
                 {
                     Id = _.Id,
                     Name = _.Name,
-                    Content = _.Content,
+                    //Content = _.Content,
                     Groups = _context.Groups.Where(g => _.CampaignGroup.Select(_ => _.GroupId).Contains(g.Id)).Select(g=>new GroupDTO
                     {
                         Id = g.Id,

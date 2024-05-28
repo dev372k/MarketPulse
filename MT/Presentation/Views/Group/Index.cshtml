@@ -60,8 +60,6 @@
                         const data = { name: $("#group_name").val() };
                         request('@Url.Action("Post", "Group")', 'POST', data)
                             .then(data => {
-                                grid.forceRender()
-                                $('#openModal').modaal('close');
                                 loading("hide")
                                 alertify.success(data.message);
                             })
