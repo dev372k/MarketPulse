@@ -107,7 +107,8 @@ namespace Presentation.Controllers
         [HttpPut]
         public IActionResult Put([FromBody] UpdateUserDTO request)
         {
-            return Ok(new ResponseModel { Message = "Profile updated successfully." });
+            _userRepo.Update(request);
+            return Ok(new ResponseModel { Message = "User updated successfully." });
         }
 
         [HttpGet("Logout"), Authorize]
