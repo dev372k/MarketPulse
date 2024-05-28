@@ -10,6 +10,8 @@ namespace Persistence.Entities
         public enSubscriptionType SubscriptionType { get; set; } = enSubscriptionType.Free;
         public DateTime PlanExpiry { get; set; } = DateTime.Now.AddMonths(1);
         public ICollection<Group> Groups { get; set; }
+        public ICollection<Customer> Customers { get; set; }
+        public ICollection<Campaign> Campaigns { get; set; }
         public ICollection<Transaction> Transactions { get; set; }
     }
 }
