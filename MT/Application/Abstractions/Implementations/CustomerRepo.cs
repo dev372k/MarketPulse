@@ -23,22 +23,47 @@ namespace Application.Abstractions.Implementations
         {
             _context = context;
         }
-        public void Add(int userId, AddCustomerDTO dto)
+        public async Task Add(int userId, AddCustomerDTO dto)
         {
-
-            var isExist = _context.Customers.Any(_ => _.Email == dto.Email && _.UserId == userId);
-            if (isExist)
-                throw new Exception("Email already exist");
-            var customer = new Customer
+            try
             {
-                Name = dto.Name,
-                Email = dto.Email,
-                GroupTags = dto.Groups.toCSV(),
-                CreatedOn = DateTime.Now,
-                UserId = userId
-            };
-            _context.Customers.Add(customer);
-            _context.SaveChanges();
+                var isExist = _context.Customers.Any(_ => _.Email == dto.Email && _.UserId == userId);
+                if (isExist)
+                    throw new InvalidOperationException("Email already exists");
+
+                var customer = new Customer
+                {
+                    Name = dto.Name,
+                    Email = dto.Email,
+                    CreatedOn = DateTime.UtcNow,
+                    UserId = userId
+                };
+
+                //await _context.Customers.AddAsync(customer);
+                //await _context.SaveChangesAsync();
+
+                _context.Customers.Add(customer);
+                _context.SaveChanges();
+
+                List<CustomerGroup> customerGroups = new();
+
+                foreach (var group in dto.Groups)
+                {
+                    customerGroups.Add(new CustomerGroup
+                    {
+                        GroupId = ConversionHelper.ConvertTo<int>(group),
+                        CustomerId = customer.Id
+                    });
+                }
+
+                _context.CustomerGroups.AddRange(customerGroups);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public void Update(int userId, UpdateCustomerDTO dto)
@@ -49,7 +74,6 @@ namespace Application.Abstractions.Implementations
             {
                 customer.Name = dto.Name;
                 customer.Email = dto.Email;
-                customer.GroupTags = dto.Groups.toCSV() ?? "13";
                 customer.UpdatedOn = DateTime.Now;
                 _context.SaveChanges();
             }
@@ -57,7 +81,7 @@ namespace Application.Abstractions.Implementations
 
         public GetCustomerDTOs Get(int userId, int pageNo, int pageSize, string search)
         {
-            var query = _context.Customers.Where(_ => _.UserId == userId).AsQueryable();
+            var query = _context.Customers.Include(_ => _.CustomerGroups).Where(_ => _.UserId == userId).AsQueryable();
             var customers = query
                 .Where(_ => !string.IsNullOrEmpty(search) ? _.Name.ToLower().Contains(search.ToLower()) : true)
                 .Select(_ => new GetCustomerDTO
@@ -65,7 +89,11 @@ namespace Application.Abstractions.Implementations
                     Id = _.Id,
                     Name = _.Name,
                     Email = _.Email,
-                    Groups = null,
+                    Groups = _context.Groups.Where(g => _.CustomerGroups.Select(_ => _.GroupId).Contains(g.Id)).Select(g => new GroupDTO
+                    {
+                        Id = g.Id,
+                        Name = g.Name
+                    }).ToList(),
                     CreatedOn = _.CreatedOn.ToString("dd MMMM, yyyy")
                 }).OrderByDescending(_ => _.Id).Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
 
@@ -84,7 +112,7 @@ namespace Application.Abstractions.Implementations
 
             if (customer != null)
             {
-                customer.IsDeleted = true; 
+                customer.IsDeleted = true;
                 _context.SaveChanges();
             }
         }

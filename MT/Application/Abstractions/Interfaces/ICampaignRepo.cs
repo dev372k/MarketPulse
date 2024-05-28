@@ -13,7 +13,7 @@ namespace Application.Abstractions.Interfaces
         GetCampaignDTOs Get(int userId, int pageNo, int pageSize, string search);
         List<SelectListItem> Get(int userId);
 
-        void Add(int userId, AddCampaignDTO dto);
+        Task Add(int userId, AddCampaignDTO dto);
 
         void Update(int userId, UpdateCampaignDTO dto);
 

@@ -28,7 +28,7 @@ namespace Application.DTOs
         public string Name { get; set; }
         public string Email { get; set; }
         public string CreatedOn { get; set; }
-        public GroupDTO Groups { get; set; }
+        public List<GroupDTO> Groups { get; set; }
     }
 
     public class GetCustomerDTOs

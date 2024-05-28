@@ -27,7 +27,7 @@ namespace Application.DTOs
         public string Name { get; set; }
         public string Content { get; set; }
         public string CreatedOn { get; set; }
-        public GroupDTO Groups { get; set; }
+        public List<GroupDTO> Groups { get; set; }
     }
 
     public class GetCampaignDTOs

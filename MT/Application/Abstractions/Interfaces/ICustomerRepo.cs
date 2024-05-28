@@ -14,7 +14,7 @@ namespace Application.Abstractions.Interfaces
         GetCustomerDTOs Get(int userId, int pageNo, int pageSize, string search);
         List<SelectListItem> Get(int userId);
 
-        void Add(int userId, AddCustomerDTO dto);
+        Task Add(int userId, AddCustomerDTO dto);
 
         void Update(int userId, UpdateCustomerDTO dto);
 

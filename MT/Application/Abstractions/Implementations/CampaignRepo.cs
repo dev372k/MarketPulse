@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Interfaces;
 using Application.DTOs;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Entities;
 using Shared.Helpers;
@@ -15,17 +16,30 @@ namespace Application.Abstractions.Implementations
         {
             _context = context;
         }
-        public void Add(int userId, AddCampaignDTO dto)
+        public async Task Add(int userId, AddCampaignDTO dto)
         {
             var campaign = new Campaign
             {
                 Name = dto.Name,
                 Content = dto.Content,
-                Groups = dto.Groups.toCSV(),
                 CreatedOn = DateTime.Now,
                 UserId = userId
             };
             _context.Campaigns.Add(campaign);
+            _context.SaveChanges();
+
+            List<CampaignGroup> campaignGroups = new();
+
+            foreach (var group in dto.Groups)
+            {
+                campaignGroups.Add(new CampaignGroup
+                {
+                    GroupId = ConversionHelper.ConvertTo<int>(group),
+                    CampaignId = campaign.Id
+                });
+            }
+
+            _context.CampaignGroups.AddRange(campaignGroups);
             _context.SaveChanges();
         }
 
@@ -43,15 +57,19 @@ namespace Application.Abstractions.Implementations
 
         public GetCampaignDTOs Get(int userId, int pageNo, int pageSize, string search)
         {
-            var query = _context.Campaigns.Where(_ => _.UserId == userId).AsQueryable();
+            var query = _context.Campaigns.Include(_ => _.CampaignGroup).Where(_ => _.UserId == userId).AsQueryable();
             var campaigns = query
                 .Where(_ => !string.IsNullOrEmpty(search) ? _.Name.ToLower().Contains(search.ToLower()) : true)
                 .Select(_ => new GetCampaignDTO
                 {
                     Id = _.Id,
                     Name = _.Name,
-                    Content= _.Content,
-                    Groups = null,
+                    Content = _.Content,
+                    Groups = _context.Groups.Where(g => _.CampaignGroup.Select(_ => _.GroupId).Contains(g.Id)).Select(g=>new GroupDTO
+                    {
+                        Id = g.Id,
+                        Name = g.Name
+                    }).ToList(),
                     CreatedOn = _.CreatedOn.ToString("dd MMMM, yyyy")
                 }).OrderByDescending(_ => _.Id).Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
 
@@ -83,7 +101,6 @@ namespace Application.Abstractions.Implementations
             {
                 campaign.Name = dto.Name;
                 campaign.Content = dto.Content;
-                campaign.Groups = dto.Groups.toCSV() ?? "13";
                 campaign.UpdatedOn = DateTime.Now;
                 _context.SaveChanges();
             }

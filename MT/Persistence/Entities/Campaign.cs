@@ -11,10 +11,10 @@ namespace Persistence.Entities
     {
         public string Name { get; set; }
         public string Content { get; set; }
-        public string Groups { get; set; } = string.Empty;
 
         [ForeignKey("User")]
         public int UserId { get; set; }
         public User User { get; set; }
+        public ICollection<CampaignGroup> CampaignGroup { get; set; }
     }
 }
