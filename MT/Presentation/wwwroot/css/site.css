@@ -275,7 +275,11 @@ th.gridjs-th {
         height: auto;
     }
 
-    .login-form, .background-content {
+    .background-content {
+        display: none;
+    }
+
+    .login-form {
         width: 100%;
     }
 }
