@@ -75,6 +75,23 @@ namespace Application.Abstractions.Implementations
                 customer.Name = dto.Name;
                 customer.Email = dto.Email;
                 customer.UpdatedOn = DateTime.Now;
+
+
+                var groups = _context.CustomerGroups.Where(_ => _.CustomerId == customer.Id).ToList();
+                _context.CustomerGroups.RemoveRange(groups);
+
+                List<CustomerGroup> customerGroups = new();
+
+                foreach (var group in dto.Groups)
+                {
+                    customerGroups.Add(new CustomerGroup
+                    {
+                        GroupId = ConversionHelper.ConvertTo<int>(group),
+                        CustomerId = customer.Id
+                    });
+                }
+
+                _context.CustomerGroups.AddRange(customerGroups);
                 _context.SaveChanges();
             }
         }

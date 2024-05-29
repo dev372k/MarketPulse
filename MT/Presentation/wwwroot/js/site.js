@@ -54,15 +54,15 @@ $.LoadingOverlaySetup({
     imageColor: "var(--main)"
 });
 
-$(document).ready(function () {
-    loading('show');
-});
+//$(document).ready(function () {
+//    loading('show');
+//});
 
-$(window).on('load', function () {
-    setTimeout(() => {
-        loading('hide');
-    }, 1000)
-});
+//$(window).on('load', function () {
+//    setTimeout(() => {
+//        loading('hide');
+//    }, 1000)
+//});
 
 const loading = (type) => {
     $.LoadingOverlay(type);

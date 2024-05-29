@@ -16,6 +16,9 @@ html {
     position: relative;
     min-height: 100%;
 }
+body{
+    font-size: 14px !important;
+}
 
 a {
     text-decoration: none !important;
@@ -185,7 +188,7 @@ th.gridjs-th {
 
 .main-logo {
     position: relative;
-    left: 60px;
+    left: 40px;
 }
 
 .main-logo-second {
