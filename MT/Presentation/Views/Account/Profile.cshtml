@@ -3,24 +3,25 @@
 @{
     ViewData["Title"] = "Profile";
 }
-<div>
+<fieldset class="my-md">
+    <legend>Personal Information</legend>
     <form id="profileForm" class="col-md-5">
         <div class="form-group">
             <input name="user_id" id="user_id" hidden value="@Model.Id" />
         </div>
-        <div class="form-group my-2">
+        <div class="form-group my">
             <label>Name</label>
             <input name="user_name" id="user_name" class="form-control" value="@Model.Name" required />
         </div>
-        <div class="form-group my-2">
+        <div class="form-group my">
             <label>Email</label>
             <input name="user_email" id="user_email" class="form-control" value="@Model.Email" required disabled/>
         </div>
-        <div class="form-group d-grid my-2">
+        <div class="form-group d-grid my">
             <input type="submit" value="Save" class="btn btn-primary" />
         </div>
     </form>
-</div>
+</fieldset>
 
 @section scripts {
     <script>

@@ -3,23 +3,23 @@
     ViewData["Title"] = "Settings";
 }
 
-<div>
-    <h6><span class="text-danger">Note*</span> all the information will be saved in an encrypted form</h6>
-    <fieldset class="my-2">
+<div class="my-md">
+    @* <h5><span class="text-danger">Note*</span> all the information will be saved in an encrypted form</h5> *@
+    <fieldset class="my">
         <legend>Plan Details</legend>
         <form id="profileForm" class="col-md-5">
-            <div class="form-group my-2">
+            <div class="form-group my">
                 <label>Plan</label>
                 <input type="text" class="form-control" name="name" value="@_stateHelper.User().SubscriptionType.ToString()" disabled />
             </div>
             @if (@_stateHelper.User().SubscriptionType == Shared.enSubscriptionType.Free)
             {
-                <div class="form-group my-2">
+                <div class="form-group my">
                     <label>Plan Expiry</label>
                     <input class="form-control" value="@_stateHelper.User().PlanExpiry.ToString(" dd MMMM, yyyy")" disabled />
                 </div>
-                <div>
-                    <a href="#" class="upgrade-btn ">Upgrade</a>
+                <div class="form-group d-grid my">
+                    <input type="button" value="Upgrade" class="btn btn-primary" />
                 </div>
             }
         </form>
@@ -30,23 +30,23 @@
             <div class="form-group">
                 <input name="user_id" id="user_id" hidden value="" />
             </div>
-            <div class="form-group my-2">
+            <div class="form-group my">
                 <label>From</label>
                 <input name="user_name" id="user_name" class="form-control" placeholder="e.g. example@sendgrid.com" value="" required />
             </div>
-            <div class="form-group my-2">
+            <div class="form-group my">
                 <label>Password</label>
                 <input name="user_email" id="user_email" class="form-control" placeholder="e.g. jkhs6fgsva5rfvga" value="" required />
             </div>
-            <div class="form-group my-2">
+            <div class="form-group my">
                 <label>SMTP</label>
                 <input name="user_email" id="user_email" class="form-control" placeholder="e.g. smtp.sendrid.com" value="" required />
             </div>
-            <div class="form-group my-2">
+            <div class="form-group my">
                 <label>Port</label>
                 <input name="user_email" id="user_email" class="form-control" placeholder="e.g. 587" value="" required />
             </div>
-            <div class="form-group d-grid my-2">
+            <div class="form-group d-grid my">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
