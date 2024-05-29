@@ -37,7 +37,7 @@
     </div>
     <form id="campaignForm">
         <input id="compaign_id" hidden />
-        <div class="form-group my-2">
+        <div class="form-group my">
             <label>Title</label>
             <input class="form-control" id="compaign_name" name="compaign_name" required placeholder="e.g. Empower" />
         </div>
@@ -45,13 +45,13 @@
             <label>Content</label>
             <textarea class="form-control" id="compaign_content" name="compaign_content" required placeholder=""></textarea>
         </div>
-        <div class="form-group my-2">
+        <div class="form-group my">
             <label>Group By</label>
             <select id="group-slim-select" multiple>
                 <option data-placeholder="true"></option>
             </select>
         </div>
-        <div class="form-group d-grid my-2">
+        <div class="form-group d-grid my">
             <input type="submit" value="Save" class="btn btn-primary" />
         </div>
     </form>
@@ -134,7 +134,7 @@
                     then: data => data.data.item.map(res => {
                         return [
                             res.name,
-                            gridjs.html(`<a class="text-primary" onclick="openTemplatefirmDelete(${res.id})">Show content</a>`),
+                            gridjs.html(`<a class="text-important" onclick="openTemplatefirmDelete(${res.id})">Show content</a>`),
                             gridjs.html(res.groups.map(item => `<span class="custom-badge" id="${item.id}">${item.name}</span>`).join('')),
                             gridjs.html(`<div>
                                                                                     <a class="custom-btn" onclick="confirmDelete(${res.id})">
