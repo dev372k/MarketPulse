@@ -54,7 +54,6 @@ namespace Application.Implementations
             if (user != null)
             {
                 user.Name = dto.Name;
-                _context.Users.Update(user);
                 _context.SaveChanges();
             }
         }
