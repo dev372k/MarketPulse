@@ -44,6 +44,8 @@ body, html {
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    position: fixed;
+    height: 100%;
 }
 
     .sidebar div.logo {
@@ -52,7 +54,7 @@ body, html {
     }
 
 .logo-p1 {
-    color: grey
+    color: grey;
 }
 
 .logo-p2 {
@@ -88,12 +90,12 @@ body, html {
 .main-content {
     flex-grow: 1;
     padding: 20px;
+    margin-left: 250px; /* To account for the fixed sidebar */
 }
 
 header {
     background-color: var(--header-bg-color);
     padding: 20px;
-    /*    margin-bottom: 20px;*/
     box-shadow: var(--box-shadow);
     display: flex;
     justify-content: space-between;
@@ -118,7 +120,6 @@ header {
     cursor: pointer;
 }
 
-
 .dropdown-menu {
     display: none;
     position: absolute;
@@ -130,9 +131,8 @@ header {
     padding: 10px 0;
     width: 200px;
     margin: 5px 0px;
-    /*border-radius: 5px;*/
     box-shadow: var(--box-shadow);
-    z-index: 2
+    z-index: 2;
 }
 
     .dropdown-menu.show {
@@ -154,7 +154,7 @@ header {
 
             .dropdown-menu li a:hover, .dropdown-menu li a.active {
                 background-color: white;
-                color: var(--primary-color)
+                color: var(--primary-color);
             }
 
 section {
@@ -163,8 +163,6 @@ section {
     margin-bottom: 20px;
     box-shadow: var(--box-shadow);
 }
-
-
 
 .btn {
     background: var(--primary-color);
@@ -175,7 +173,7 @@ section {
 }
 
 .text-center {
-    text-align: center
+    text-align: center;
 }
 
 .btn-relative-position {
@@ -185,15 +183,15 @@ section {
 }
 
 .my {
-    margin-top: 10px
+    margin-top: 10px;
 }
 
 .my-md {
-    margin-top: 15px
+    margin-top: 15px;
 }
 
 .my-lg {
-    margin-top: 20px
+    margin-top: 20px;
 }
 
 .form-control {
@@ -309,6 +307,7 @@ a {
 .alert-dark {
     background: grey;
 }
+
 /*Account Pages*/
 .account-container {
     display: flex;
@@ -385,7 +384,7 @@ a {
 }
 
 .d-none {
-    display: none
+    display: none;
 }
 
 .logo {
@@ -407,7 +406,6 @@ a {
     border-top: none !important;
 }
 
-
 /*Alertify Library*/
 .ajs-button {
     background-color: var(--main) !important;
@@ -422,13 +420,13 @@ a {
     }
 
 .ajs-message {
-    color: var(--white)
+    color: var(--white);
 }
 
 /*GridJS Library*/
 .gridjs-input {
     /*border:1px solid var(--purple) !important;*/
-    box-shadow: none !important
+    box-shadow: none !important;
 }
 
     .gridjs-input:focus {
@@ -448,10 +446,9 @@ th.gridjs-th {
     border-bottom: 1px solid #e5e7eb !important;
 }
 
-
 /*SlimSelect Library*/
 .ss-value {
-    background: var(--primary-color) !important
+    background: var(--primary-color) !important;
 }
 
 /*UnLayer Editor*/
@@ -462,7 +459,7 @@ th.gridjs-th {
 }
 
 .blockbuilder-branding {
-    display: none !important
+    display: none !important;
 }
 
 @media (max-width: 768px) {
@@ -476,6 +473,7 @@ th.gridjs-th {
 
     .main-content {
         padding: 10px;
+        margin-left: 0; /* Reset margin when sidebar is hidden */
     }
 
     header {

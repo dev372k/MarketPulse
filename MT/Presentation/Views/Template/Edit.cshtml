@@ -32,10 +32,7 @@
         displayMode: 'email'
     });
 
-
-    // Function to load dynamic HTML into the editor
     function loadDynamicHtml(htmlContent) {
-        // Create a design object with the provided HTML content
         const design = {
             "counters": {
                 "uid": 1
@@ -61,14 +58,12 @@
             }
         };
 
-        // Load the design into the editor
         editor.loadDesign(design);
     }
 
 
-    document.getElementById('export-button').addEventListener('click', function () {
+    document.getElementById('copy-button').addEventListener('click', function () {
         editor.exportHtml(function (data) {
-            // Copy the text inside the text field
             navigator.clipboard.writeText(data.html).then(() => {
                 alert("Copied to clipboard");
             }).catch(err => {
@@ -77,10 +72,8 @@
         });
     });
 
-    // Example of dynamic HTML content
     const dynamicHtmlContent = "<h1>Hello World</h1>";
 
-    // Wait for the Unlayer editor to be ready before loading the design
     editor.addEventListener('editor:ready', function () {
         loadDynamicHtml(dynamicHtmlContent);
     });
