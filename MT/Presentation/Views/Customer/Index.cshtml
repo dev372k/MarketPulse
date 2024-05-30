@@ -59,6 +59,12 @@
                         errorMessage: 'Email is required',
                     }
                 ])
+                .addField('#group-slim-select', [
+                    {
+                        rule: 'required',
+                        errorMessage: 'Please select group(s)'
+                    }
+                ])
                 .onSuccess((event) => {
                     event.preventDefault();
                     loading("show")

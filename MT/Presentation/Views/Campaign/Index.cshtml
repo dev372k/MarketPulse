@@ -72,12 +72,12 @@
                         errorMessage: 'Name is required',
                     }
                 ])
-                // .addField('#compaign_content', [
-                //     {
-                //         rule: 'required',
-                //         errorMessage: 'Content is required',
-                //     }
-                // ])
+                .addField('#group-slim-select', [
+                    {
+                        rule: 'required',
+                        errorMessage: 'Please select group(s)'
+                    }
+                ])
                 .onSuccess((event) => {
                     event.preventDefault();
                     loading("show")
