@@ -32,6 +32,40 @@
         displayMode: 'email'
     });
 
+
+    // Function to load dynamic HTML into the editor
+    function loadDynamicHtml(htmlContent) {
+        // Create a design object with the provided HTML content
+        const design = {
+            "counters": {
+                "uid": 1
+            },
+            "body": {
+                "rows": [
+                    {
+                        "cells": [1],
+                        "columns": [
+                            {
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "values": {
+                                            "text": htmlContent
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Load the design into the editor
+        editor.loadDesign(design);
+    }
+
+
     document.getElementById('export-button').addEventListener('click', function () {
         editor.exportHtml(function (data) {
             // Copy the text inside the text field
@@ -41,5 +75,13 @@
                 console.error('Failed to copy text: ', err);
             });
         });
+    });
+
+    // Example of dynamic HTML content
+    const dynamicHtmlContent = "<h1>Hello World</h1>";
+
+    // Wait for the Unlayer editor to be ready before loading the design
+    editor.addEventListener('editor:ready', function () {
+        loadDynamicHtml(dynamicHtmlContent);
     });
 </script>
