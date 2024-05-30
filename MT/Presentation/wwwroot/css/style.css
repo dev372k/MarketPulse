@@ -183,15 +183,15 @@ section {
 }
 
 .my {
-    margin-top: 10px;
+    margin: 10px 0px;
 }
 
 .my-md {
-    margin-top: 15px;
+    margin: 15px 0px;
 }
 
 .my-lg {
-    margin-top: 20px;
+    margin: 20px 0px;
 }
 
 .form-control {
