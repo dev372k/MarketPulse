@@ -31,6 +31,27 @@
     <div id="wrapper"></div>
 </div>
 
+<a id="openRunCampaignModal">
+
+</a>
+
+<div id="run-campaign-modaal-content" style="display: none;">
+    <div class="text-center">
+        <h3>Campaigns</h3>
+    </div>
+    <form id="scheculeForm">
+        <input id="compaign_id" hidden />
+        <div class="form-group my">
+            <label>Date/Time</label>
+            <input type="datetime-local" class="form-control" id="compaign_datetime" name="compaign_datetime"/>
+        </div>
+        <div class="form-group my">
+            <input type="submit" value="Schedule" class="btn btn-primary" />
+            <input type="submit" value="Run Now" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
 <div id="modaal-content" style="display: none;">
     <div class="text-center">
         <h3>Campaigns</h3>
@@ -127,8 +148,19 @@
                 }
             });
 
+            $('#openRunCampaignModal').modaal({
+                content_source: '#run-campaign-modaal-content',
+                after_close: function () {
+                    // $("#campaignForm").trigger("reset")
+                    // slimSelectInstance.set([]);
+                },
+                before_open: function () {
+                    // renderDropdown()
+                }
+            });
+
             grid = new gridjs.Grid({
-                columns: ["Title", "Content", "Group(s)", "Action"],
+                columns: ["Title", "Content", "Group(s)", "Action", "Run"],
                 server: {
                     url: '@Url.Action("Get", "Campaign")',
                     then: data => data.data.item.map(res => {
@@ -149,7 +181,8 @@
                                                                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                                                                                         </svg>
                                                                                     </a>
-                                                                                </div>`)
+                                                                                </div>`),
+                            gridjs.html(`<a class="btn btn-primary" id="" onclick="openRunModal(${res.id})">Run Campaign</a>`)
                         ];
                     }),
                     total: data => data.data.totalCount
@@ -201,6 +234,10 @@
             $('#openModal').modaal('open');
         }
 
+        const openRunModal = (id) => {
+            console.log(id)
+            $('#openRunCampaignModal').modaal('open');
+        }
 
         const renderDropdown = async (data) => {
             if (reload) {
