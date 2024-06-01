@@ -1,9 +1,108 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\..\..\..\.nuget\packages\bootstrap\5.3.3\contentFiles\any\any\wwwroot\js\bootstrap.bundle.js" Link="wwwroot\js\bootstrap.bundle.js">
+      <Private>False</Private>
+      <NuGetPackageVersion>5.3.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <NuGetPackageId>bootstrap</NuGetPackageId>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="..\..\..\..\..\.nuget\packages\bootstrap\5.3.3\contentFiles\any\any\wwwroot\js\bootstrap.bundle.js.map" Link="wwwroot\js\bootstrap.bundle.js.map">
+      <Private>False</Private>
+      <NuGetPackageVersion>5.3.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <NuGetPackageId>bootstrap</NuGetPackageId>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="..\..\..\..\..\.nuget\packages\bootstrap\5.3.3\contentFiles\any\any\wwwroot\js\bootstrap.bundle.min.js" Link="wwwroot\js\bootstrap.bundle.min.js">
+      <Private>False</Private>
+      <NuGetPackageVersion>5.3.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <NuGetPackageId>bootstrap</NuGetPackageId>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="..\..\..\..\..\.nuget\packages\bootstrap\5.3.3\contentFiles\any\any\wwwroot\js\bootstrap.bundle.min.js.map" Link="wwwroot\js\bootstrap.bundle.min.js.map">
+      <Private>False</Private>
+      <NuGetPackageVersion>5.3.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <NuGetPackageId>bootstrap</NuGetPackageId>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="..\..\..\..\..\.nuget\packages\bootstrap\5.3.3\contentFiles\any\any\wwwroot\js\bootstrap.esm.js" Link="wwwroot\js\bootstrap.esm.js">
+      <Private>False</Private>
+      <NuGetPackageVersion>5.3.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <NuGetPackageId>bootstrap</NuGetPackageId>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="..\..\..\..\..\.nuget\packages\bootstrap\5.3.3\contentFiles\any\any\wwwroot\js\bootstrap.esm.js.map" Link="wwwroot\js\bootstrap.esm.js.map">
+      <Private>False</Private>
+      <NuGetPackageVersion>5.3.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <NuGetPackageId>bootstrap</NuGetPackageId>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="..\..\..\..\..\.nuget\packages\bootstrap\5.3.3\contentFiles\any\any\wwwroot\js\bootstrap.esm.min.js" Link="wwwroot\js\bootstrap.esm.min.js">
+      <Private>False</Private>
+      <NuGetPackageVersion>5.3.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <NuGetPackageId>bootstrap</NuGetPackageId>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="..\..\..\..\..\.nuget\packages\bootstrap\5.3.3\contentFiles\any\any\wwwroot\js\bootstrap.esm.min.js.map" Link="wwwroot\js\bootstrap.esm.min.js.map">
+      <Private>False</Private>
+      <NuGetPackageVersion>5.3.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <NuGetPackageId>bootstrap</NuGetPackageId>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="..\..\..\..\..\.nuget\packages\bootstrap\5.3.3\contentFiles\any\any\wwwroot\js\bootstrap.js" Link="wwwroot\js\bootstrap.js">
+      <Private>False</Private>
+      <NuGetPackageVersion>5.3.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <NuGetPackageId>bootstrap</NuGetPackageId>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="..\..\..\..\..\.nuget\packages\bootstrap\5.3.3\contentFiles\any\any\wwwroot\js\bootstrap.js.map" Link="wwwroot\js\bootstrap.js.map">
+      <Private>False</Private>
+      <NuGetPackageVersion>5.3.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <NuGetPackageId>bootstrap</NuGetPackageId>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="..\..\..\..\..\.nuget\packages\bootstrap\5.3.3\contentFiles\any\any\wwwroot\js\bootstrap.min.js" Link="wwwroot\js\bootstrap.min.js">
+      <Private>False</Private>
+      <NuGetPackageVersion>5.3.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <NuGetPackageId>bootstrap</NuGetPackageId>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="..\..\..\..\..\.nuget\packages\bootstrap\5.3.3\contentFiles\any\any\wwwroot\js\bootstrap.min.js.map" Link="wwwroot\js\bootstrap.min.js.map">
+      <Private>False</Private>
+      <NuGetPackageVersion>5.3.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <NuGetPackageId>bootstrap</NuGetPackageId>
+      <Pack>false</Pack>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.31" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Shared\_ValidationScriptsPartial.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>

@@ -1,0 +1,133 @@
+﻿@model Web.Models.Register
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+
+<form id="registerForm" method="post" onsubmit="return handleRegister(event)">
+    <div class="form-group">
+        <label asp-for="FirstName" class="control-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName" class="control-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword" class="control-label"></label>
+        <input asp-for="ConfirmPassword" type="password" class="form-control" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber" class="control-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+<p>
+    Already have an account? <a href="@Url.Action("Login", "Account")">Login</a>
+</p>
+
+<div id="registerErrorMessage" class="text-danger" style="display: none;"></div>
+
+@section Scripts {
+    <script>
+        async function handleRegister(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('registerForm');
+            const formData = new FormData(form);
+            const errorMessage = document.getElementById('registerErrorMessage');
+            errorMessage.style.display = 'none';
+            errorMessage.innerText = '';
+
+            const fields = ['FirstName', 'LastName', 'Email', 'Password', 'ConfirmPassword', 'PhoneNumber'];
+            const validationMessages = {
+                FirstName: 'First name is required',
+                LastName: 'Last name is required',
+                Email: 'Email is required',
+                Password: 'Password is required',
+                ConfirmPassword: 'Confirm password is required',
+                PhoneNumber: 'Phone number is required'
+            };
+
+            let valid = true;
+            fields.forEach(field => {
+                const value = formData.get(field);
+                if (!value) {
+                    valid = false;
+                    document.querySelector(`[name="${field}"]`).nextElementSibling.innerText = validationMessages[field];
+                } else {
+                    document.querySelector(`[name="${field}"]`).nextElementSibling.innerText = '';
+                }
+            });
+
+            if (!valid) {
+                errorMessage.style.display = 'block';
+                errorMessage.innerText = 'Please fill all required fields correctly.';
+                return;
+            }
+
+            try {
+                const response = await request('https://dev-mt-api.azurewebsites.net/api/users/selfregister', 'POST', Object.fromEntries(formData));
+                console.log('Response:', response);
+                alert('Registration successful');
+                window.location.href = "/home";
+            } catch (error) {
+                console.error('Error:', error.message);
+                errorMessage.style.display = 'block';
+                errorMessage.innerText = 'Registration failed: ' + error.message;
+            }
+        }
+
+        const cache = {};
+
+        async function request(url, method, data = null, isCache = false) {
+            const options = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: data ? JSON.stringify(data) : null
+            };
+
+            if (isCache && method.toUpperCase() === 'GET' && cache[url]) {
+                return cache[url];
+            }
+
+            try {
+                const response = await fetch(url, options);
+                const responseData = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(responseData.message || 'Something went wrong');
+                }
+
+                if (isCache && method.toUpperCase() === 'GET') {
+                    cache[url] = responseData;
+                }
+
+                return responseData;
+            } catch (error) {
+                console.error('Request failed:', error.message);
+                throw new Error(error.message || 'Something went wrong');
+            }
+        }
+    </script>
+}
