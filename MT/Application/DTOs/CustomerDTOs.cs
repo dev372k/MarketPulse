@@ -11,6 +11,7 @@ namespace Application.DTOs
     {
         public string Name { get; set; }
         public string Email { get; set; }
+        public string Phone { get; set; }
         public List<string> Groups { get; set; }
     }
 
@@ -19,6 +20,7 @@ namespace Application.DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
+        public string Phone { get; set; }
         public List<string> Groups { get; set; }
     }
 
@@ -27,6 +29,7 @@ namespace Application.DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
+        public string Phone { get; set; }
         public string CreatedOn { get; set; }
         public List<GroupDTO> Groups { get; set; }
     }

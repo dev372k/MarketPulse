@@ -33,6 +33,10 @@
             <input class="form-control" id="customer_email" name="customer_email" required placeholder="e.g. john@mail.com" />
         </div>
         <div class="form-group my">
+            <label>Phone</label>
+            <input class="form-control" id="customer_phone" name="customer_phone" required placeholder="e.g. 03001234567" />
+        </div>
+        <div class="form-group my">
             <label>Group By</label>
             <select id="group-slim-select" multiple>
                 <option data-placeholder="true"></option>
@@ -65,18 +69,25 @@
                         errorMessage: 'Email is required',
                     }
                 ])
+                .addField('#customer_phone', [
+                    {
+                        rule: 'required',
+                        errorMessage: 'Phone no is required(s)'
+                    }
+                ])
                 .addField('#group-slim-select', [
                     {
                         rule: 'required',
                         errorMessage: 'Please select group(s)'
                     }
                 ])
+                
                 .onSuccess((event) => {
                     event.preventDefault();
                     loading("show")
                     const customer_group = slimSelectInstance.selected();
                     if ($("#customer_id").val()) {
-                        const data = { id: $("#customer_id").val(), name: $("#customer_name").val(), email: $("#customer_email").val(), groups: customer_group };
+                        const data = { id: $("#customer_id").val(), name: $("#customer_name").val(), email: $("#customer_email").val(), phone: $("#customer_phone").val(), groups: customer_group };
                         request('@Url.Action("Put", "Customer")', 'PUT', data)
                             .then(data => {
 
@@ -92,7 +103,7 @@
                             .catch(error => console.error(error));
                     }
                     else {
-                        const data = { name: $("#customer_name").val(), email: $("#customer_email").val(), groups: customer_group };
+                        const data = { name: $("#customer_name").val(), email: $("#customer_email").val(), phone: $("#customer_phone").val(), groups: customer_group };
                         request('@Url.Action("Post", "Customer")', 'POST', data)
                             .then(data => {
                                 grid.forceRender()
@@ -121,13 +132,14 @@
             });
 
             grid = new gridjs.Grid({
-                columns: ["Name", "Email", "Group(s)", "Action"],
+                columns: ["Name", "Email", "Phone", "Group(s)", "Action"],
                 server: {
                     url: '@Url.Action("Get", "Customer")',
                     then: data => data.data.item.map(res => {
                         return [
                             res.name,
                             res.email,
+                            res.phone,
                             gridjs.html(res.groups.map(item => `<span class="custom-badge" id="${item.id}">${item.name}</span>`).join('')),
                             gridjs.html(`<div>
                                                             <a class="custom-btn" onclick="confirmDelete(${res.id})">
@@ -136,7 +148,7 @@
                                                                     <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                                                                 </svg>
                                                             </a>
-                                                                    <a class="custom-btn" onclick="openEditModal(${res.id}, '${res.name}', '${res.email}', ${JSON.stringify(res.groups).replace(/'/g, "&apos;").replace(/"/g, "&quot;")})">
+                                                                            <a class="custom-btn" onclick="openEditModal(${res.id}, '${res.name}', '${res.email}', '${res.phone}' , ${JSON.stringify(res.groups).replace(/'/g, "&apos;").replace(/"/g, "&quot;")})">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
@@ -186,11 +198,12 @@
                 , function () { })
         }
 
-        function openEditModal(id, name, email,groups) {
+        function openEditModal(id, name, email, phone, groups) {
             renderDropdown(groups)
             $("#customer_id").val(id)
             $("#customer_name").val(name)
             $("#customer_email").val(email)
+            $("#customer_phone").val(phone)
             $('#openModal').modaal('open');
         }
 

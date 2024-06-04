@@ -14,6 +14,8 @@ namespace Persistence.Entities
         [ForeignKey("User")]
         public int UserId { get; set; }
         public User User { get; set; }
+        public string Phone { get; set; } = string.Empty;
+        public bool IsBlocked { get; set; }
 
         public ICollection<CustomerGroup> CustomerGroups { get; set; }
     }

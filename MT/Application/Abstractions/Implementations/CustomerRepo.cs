@@ -35,6 +35,7 @@ namespace Application.Abstractions.Implementations
                 {
                     Name = dto.Name,
                     Email = dto.Email,
+                    Phone = dto.Phone,
                     CreatedOn = DateTime.UtcNow,
                     UserId = userId
                 };
@@ -74,6 +75,7 @@ namespace Application.Abstractions.Implementations
             {
                 customer.Name = dto.Name;
                 customer.Email = dto.Email;
+                customer.Phone = dto.Phone;
                 customer.UpdatedOn = DateTime.Now;
 
 
