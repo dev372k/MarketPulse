@@ -413,8 +413,8 @@ a {
 
 /*Alertify Library*/
 .ajs-button {
-    background-color: var(--main) !important;
-    color: var(--white);
+    background-color: var(--primary-color) !important;
+    color: white;
     border: none !important;
     box-shadow: none !important;
 }
