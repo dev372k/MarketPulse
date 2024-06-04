@@ -57,5 +57,12 @@ namespace Presentation.Controllers
             _campaignRepo.Delete(id);
             return Ok(new ResponseModel { Message = "Campaign deleted successfully." });
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> Run([FromQuery] int id)
+        {
+            await _campaignRepo.Run(id);
+            return Ok(new ResponseModel { Message = "Campaign ran successfully." });
+        }
     }
 }

@@ -35,22 +35,7 @@
 
 </a>
 
-<div id="run-campaign-modaal-content" style="display: none;">
-    <div class="text-center">
-        <h3>Campaigns</h3>
-    </div>
-    <form id="scheculeForm">
-        <input id="compaign_id" hidden />
-        <div class="form-group my">
-            <label>Date/Time</label>
-            <input type="datetime-local" class="form-control" id="compaign_datetime" name="compaign_datetime"/>
-        </div>
-        <div class="form-group my">
-            <input type="submit" value="Schedule" class="btn btn-primary" />
-            <input type="submit" value="Run Now" class="btn btn-primary" />
-        </div>
-    </form>
-</div>
+
 
 <div id="modaal-content" style="display: none;">
     <div class="text-center">
@@ -62,7 +47,7 @@
             <label>Title</label>
             <input class="form-control" id="compaign_name" name="compaign_name" required placeholder="e.g. Empower" />
         </div>
-        <div class="form-group d-none">
+        <div class="form-group">
             <label>Content</label>
             <textarea class="form-control" id="compaign_content" name="compaign_content" required placeholder=""></textarea>
         </div>
@@ -77,6 +62,29 @@
         </div>
     </form>
 </div>
+
+<div id="run-campaign-modaal-content" style="display: none;">
+    <div class="text-center">
+        <h3>Campaigns</h3>
+    </div>
+    <form id="scheculeForm">
+        <input id="compaign_id_2" hidden />
+@*         <div class="form-group d-grid my">
+            <input type="button" onclick="runCampaign()" value="Run Now" class="btn btn-primary d-grid" />
+        </div>
+        <div class="text-center">
+            OR
+        </div> *@
+        <div class="form-group my">
+            <label>Date/Time</label>
+            <input type="datetime-local" class="form-control" id="compaign_datetime" name="compaign_datetime" />
+        </div>
+        <div class="form-group d-grid my">
+            <input type="submit" value="Schedule" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
 @section scripts {
     <script>
         let grid = {}
@@ -104,8 +112,8 @@
                     loading("show")
                     const compaign_group = slimSelectInstance.selected();
                     if ($("#compaign_id").val()) {
-                        // const data = { id: $("#compaign_id").val(), name: $("#compaign_name").val(), content: $("#compaign_content").val(), groups: compaign_group };
-                        const data = { id: $("#compaign_id").val(), name: $("#compaign_name").val(), content: "", groups: compaign_group };
+                        const data = { id: $("#compaign_id").val(), name: $("#compaign_name").val(), content: $("#compaign_content").val(), groups: compaign_group };
+                        // const data = { id: $("#compaign_id").val(), name: $("#compaign_name").val(), content: "", groups: compaign_group };
                         request('@Url.Action("Put", "Campaign")', 'PUT', data)
                             .then(data => {
 
@@ -160,7 +168,7 @@
             });
 
             grid = new gridjs.Grid({
-                columns: ["Title", "Content", "Group(s)", "Action", "Run"],
+                columns: ["Title", "Content", "Group(s)", "Action", "Run/Schedule"],
                 server: {
                     url: '@Url.Action("Get", "Campaign")',
                     then: data => data.data.item.map(res => {
@@ -169,20 +177,20 @@
                             gridjs.html(`<a class="text-important" onclick="openTemplatefirmDelete(${res.id})">Show content</a>`),
                             gridjs.html(res.groups.map(item => `<span class="custom-badge" id="${item.id}">${item.name}</span>`).join('')),
                             gridjs.html(`<div>
-                                                                                    <a class="custom-btn" onclick="confirmDelete(${res.id})">
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                                                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                                                                                        </svg>
-                                                                                    </a>
-                                                                                                    <a class="custom-btn" onclick="openEditModal(${res.id}, '${res.name}', '',  ${JSON.stringify(res.groups).replace(/'/g, "&apos;").replace(/"/g, "&quot;")})">
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                                                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                                                                        </svg>
-                                                                                    </a>
-                                                                                </div>`),
-                            gridjs.html(`<a class="btn btn-primary" id="" onclick="openRunModal(${res.id})">Run Campaign</a>`)
+                                                                                                            <a class="custom-btn" onclick="confirmDelete(${res.id})">
+                                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                                                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                                                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                                                                                </svg>
+                                                                                                            </a>
+                                                                                                                            <a class="custom-btn" onclick="openEditModal(${res.id}, '${res.name}', '',  ${JSON.stringify(res.groups).replace(/'/g, "&apos;").replace(/"/g, "&quot;")})">
+                                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                                                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                                                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                                                                                                </svg>
+                                                                                                            </a>
+                                                                                                        </div>`),
+                            gridjs.html(`<a class="btn btn-primary" id="" onclick="runCampaign(${res.id})">Run Now</a>  <a class="btn btn-primary" id="" onclick="openRunModal(${res.id})">Schedule</a>`)
                         ];
                     }),
                     total: data => data.data.totalCount
@@ -235,7 +243,7 @@
         }
 
         const openRunModal = (id) => {
-            console.log(id)
+            $("#compaign_id_2").val(id)
             $('#openRunCampaignModal').modaal('open');
         }
 
@@ -269,6 +277,20 @@
             if (data) {
                 slimSelectInstance.set(data.map(item => item.id));
             }
+        }
+        const runCampaign = (id) => {
+            loading("show")
+            request(`@Url.Action("Run", "Campaign")?id=${id}`, 'GET')
+                .then(data => {
+                    // grid.forceRender()
+                    $('#openRunCampaignModal').modaal('close');
+                    loading("hide")
+                    if (data.status)
+                        alertify.success(data.message);
+                    else
+                        alertify.error(data.message);
+                })
+                .catch(error => console.error(error));
         }
 
         const openTemplatefirmDelete = (id) => {

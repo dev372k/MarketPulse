@@ -18,5 +18,6 @@ namespace Application.Abstractions.Interfaces
         void Update(int userId, UpdateCampaignDTO dto);
 
         void Delete(int id);
+        Task Run(int id);
     }
 }

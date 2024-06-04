@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Interfaces;
 using Application.DTOs;
+using Application.Services;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Entities;
@@ -11,10 +12,13 @@ namespace Application.Abstractions.Implementations
     public class CampaignRepo : ICampaignRepo
     {
         private ApplicationDBContext _context;
+        private IEmailService _emailService;
 
-        public CampaignRepo(ApplicationDBContext context)
+        public CampaignRepo(ApplicationDBContext context,
+            IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
         public async Task Add(int userId, AddCampaignDTO dto)
         {
@@ -65,7 +69,7 @@ namespace Application.Abstractions.Implementations
                     Id = _.Id,
                     Name = _.Name,
                     //Content = _.Content,
-                    Groups = _context.Groups.Where(g => _.CampaignGroup.Select(_ => _.GroupId).Contains(g.Id)).Select(g=>new GroupDTO
+                    Groups = _context.Groups.Where(g => _.CampaignGroup.Select(_ => _.GroupId).Contains(g.Id)).Select(g => new GroupDTO
                     {
                         Id = g.Id,
                         Name = g.Name
@@ -105,5 +109,31 @@ namespace Application.Abstractions.Implementations
                 _context.SaveChanges();
             }
         }
+
+        public async Task Run(int id)
+        {
+            var campaign = await _context.Campaigns.FindAsync(id);
+            if (campaign == null)
+                return;
+
+            var customerIds = await _context.CampaignGroups
+                .Where(cg => cg.CampaignId == id)
+                .Join(_context.CustomerGroups, cg => cg.GroupId, cg => cg.GroupId,
+                      (cg, cg2) => cg2.CustomerId)
+                .ToListAsync();
+
+            if (!customerIds.Any())
+                return;
+
+            var customerEmails = await _context.Customers
+                .Where(c => customerIds.Contains(c.Id))
+                .ToListAsync();
+
+            var distinctEmails = customerEmails.GroupBy(c => c.Email).Select(group => group.First()).Select(_ => _.Email).ToList();
+
+            if (distinctEmails.Any())
+                await _emailService.SendEmailsAsync(distinctEmails, campaign.Name, campaign.Content);
+        }
+
     }
 }

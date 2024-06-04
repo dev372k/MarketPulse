@@ -1,6 +1,7 @@
 using Application.Abstractions.Implementations;
 using Application.Abstractions.Interfaces;
 using Application.Implementations;
+using Application.Services;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -28,6 +29,7 @@ builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IGroupRepo, GroupRepo>();
 builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
 builder.Services.AddScoped<ICampaignRepo, CampaignRepo>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
