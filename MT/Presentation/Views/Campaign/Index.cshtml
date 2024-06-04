@@ -168,7 +168,7 @@
             });
 
             grid = new gridjs.Grid({
-                columns: ["Title", "Content", "Group(s)", "Action", "Run/Schedule"],
+                columns: ["Title", "Content", "Group(s)", "Action", "Run"],
                 server: {
                     url: '@Url.Action("Get", "Campaign")',
                     then: data => data.data.item.map(res => {
@@ -190,7 +190,8 @@
                                                                                                                 </svg>
                                                                                                             </a>
                                                                                                         </div>`),
-                            gridjs.html(`<a class="btn btn-primary" id="" onclick="runCampaign(${res.id})">Run Now</a>  <a class="btn btn-primary" id="" onclick="openRunModal(${res.id})">Schedule</a>`)
+                            gridjs.html(`<a class="btn btn-primary" id="" onclick="runCampaign(${res.id})">Run Now</a>`)
+                            // gridjs.html(`<a class="btn btn-primary" id="" onclick="runCampaign(${res.id})">Run Now</a>  <a class="btn btn-primary" id="" onclick="openRunModal(${res.id})">Schedule</a>`)
                         ];
                     }),
                     total: data => data.data.totalCount
