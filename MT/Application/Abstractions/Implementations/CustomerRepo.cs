@@ -40,9 +40,6 @@ namespace Application.Abstractions.Implementations
                     UserId = userId
                 };
 
-                //await _context.Customers.AddAsync(customer);
-                //await _context.SaveChangesAsync();
-
                 _context.Customers.Add(customer);
                 _context.SaveChanges();
 
