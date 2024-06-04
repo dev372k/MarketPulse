@@ -107,6 +107,24 @@ namespace Application.Abstractions.Implementations
                 campaign.Content = dto.Content;
                 campaign.UpdatedOn = DateTime.Now;
                 _context.SaveChanges();
+
+
+                var groups = _context.CampaignGroups.Where(_ => _.CampaignId == campaign.Id).ToList();
+                _context.CampaignGroups.RemoveRange(groups);
+
+                List<CampaignGroup> campaignGroups = new();
+
+                foreach (var group in dto.Groups)
+                {
+                    campaignGroups.Add(new CampaignGroup
+                    {
+                        GroupId = ConversionHelper.ConvertTo<int>(group),
+                        CampaignId = campaign.Id
+                    });
+                }
+
+                _context.CampaignGroups.AddRange(campaignGroups);
+                _context.SaveChanges();
             }
         }
 
