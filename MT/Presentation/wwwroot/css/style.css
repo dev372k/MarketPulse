@@ -425,7 +425,7 @@ a {
     }
 
 .ajs-message {
-    color: var(--white);
+    color: white;
 }
 
 /*GridJS Library*/
