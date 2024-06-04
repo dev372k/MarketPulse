@@ -206,15 +206,16 @@ section {
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid lightgrey;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    /*    -webkit-appearance: none;
+    -moz-appearance: none;*/
     appearance: none;
     border-radius: .25rem;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    /*transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;*/
 }
 
-    .form-control:focus {
-        border: 1px solid var(--primary-color);
+    .form-control:focus .form-control:active {
+        border: 1px solid var(--primary-color) !important;
+        box-shadow: none !important;
     }
 
 label {
@@ -266,6 +267,10 @@ legend {
     font-weight: bold;
     color: var(--primary-color);
     padding: 0 10px;
+}
+
+li svg{
+    margin: 0px 1em 0px 0px
 }
 
 a {
@@ -420,7 +425,7 @@ a {
     }
 
 .ajs-message {
-    color: var(--white);
+    color: white;
 }
 
 /*GridJS Library*/
