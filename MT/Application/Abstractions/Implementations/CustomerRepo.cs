@@ -108,6 +108,7 @@ namespace Application.Abstractions.Implementations
                     Id = _.Id,
                     Name = _.Name,
                     Email = _.Email,
+                    Phone = _.Phone,
                     Groups = _context.Groups.Where(g => _.CustomerGroups.Select(_ => _.GroupId).Contains(g.Id)).Select(g => new GroupDTO
                     {
                         Id = g.Id,
