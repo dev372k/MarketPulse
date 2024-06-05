@@ -40,9 +40,6 @@ namespace Application.Abstractions.Implementations
                     UserId = userId
                 };
 
-                //await _context.Customers.AddAsync(customer);
-                //await _context.SaveChangesAsync();
-
                 _context.Customers.Add(customer);
                 _context.SaveChanges();
 
@@ -65,6 +62,11 @@ namespace Application.Abstractions.Implementations
 
                 throw;
             }
+        }
+        
+        public async Task AddBulk(int userId, List<AddCustomerDTO> dtos)
+        {
+            //await _context.Customers.AddRangeAsync();
         }
 
         public void Update(int userId, UpdateCustomerDTO dto)

@@ -15,6 +15,7 @@ namespace Application.Abstractions.Interfaces
         List<SelectListItem> Get(int userId);
 
         Task Add(int userId, AddCustomerDTO dto);
+        Task AddBulk(int userId, List<AddCustomerDTO> dtos);
 
         void Update(int userId, UpdateCustomerDTO dto);
 
