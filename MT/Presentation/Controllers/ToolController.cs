@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Presentation.Models;
 using Shared.Helpers;
 using System.Text;
@@ -22,10 +23,12 @@ namespace Presentation.Controllers
                 }
 
                 else ViewBag.NotFound = "no";
-                if (exportCSV && scraperModel.Emails.Any())
-                    return ExportEmailsToCSV(scraperModel.Emails);
             }
             return View(scraperModel);
+        }
+        public IActionResult Export(ExportModel model)
+        {
+            return ExportEmailsToCSV(model.EmailCSV.Split(","));
         }
 
         private IActionResult ExportEmailsToCSV(IEnumerable<string> emails)
@@ -42,5 +45,9 @@ namespace Presentation.Controllers
             return File(buffer, "text/csv", $"emails-{DateTime.Now.Ticks}.csv");
         }
 
+    }
+    public class ExportModel
+    {
+        public string EmailCSV { get; set; }
     }
 }
