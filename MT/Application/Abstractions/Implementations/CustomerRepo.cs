@@ -68,16 +68,13 @@ namespace Application.Abstractions.Implementations
         {
             try
             {
-                // Create a list to hold customers to be added
                 List<Customer> customersToAdd = new List<Customer>();
-                // Create a list to hold customer groups to be added
-                List<CustomerGroup> customerGroupsToAdd = new List<CustomerGroup>();
 
+                //var isExist = _context.Customers.Any(_ => dtos.Select(_ => _.Email) _.Email && _.UserId == userId);
                 foreach (var dto in dtos)
                 {
-                    var isExist = _context.Customers.Any(_ => _.Email == dto.Email && _.UserId == userId);
-                    if (isExist)
-                        throw new InvalidOperationException($"Email {dto.Email} already exists");
+                    //if (isExist)
+                    //    throw new InvalidOperationException($"Email {dto.Email} already exists");
 
                     var customer = new Customer
                     {
@@ -89,38 +86,13 @@ namespace Application.Abstractions.Implementations
                     };
 
                     customersToAdd.Add(customer);
-
-                    // Add customer groups
-                    foreach (var group in dto.Groups)
-                    {
-                        customerGroupsToAdd.Add(new CustomerGroup
-                        {
-                            GroupId = ConversionHelper.ConvertTo<int>(group),
-                            CustomerId = customer.Id
-                        });
-                    }
                 }
 
-                // Add all customers to the context
                 await _context.Customers.AddRangeAsync(customersToAdd);
-                await _context.SaveChangesAsync();
-
-                // After saving customers, set the CustomerId for each CustomerGroup
-                foreach (var customer in customersToAdd)
-                {
-                    foreach (var group in dtos.First(dto => dto.Email == customer.Email).Groups)
-                    {
-                        customerGroupsToAdd.First(cg => cg.GroupId == ConversionHelper.ConvertTo<int>(group) && cg.CustomerId == 0).CustomerId = customer.Id;
-                    }
-                }
-
-                // Add all customer groups to the context
-                await _context.CustomerGroups.AddRangeAsync(customerGroupsToAdd);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                // Log exception here if necessary
                 throw;
             }
         }
