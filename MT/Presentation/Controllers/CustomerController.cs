@@ -7,7 +7,7 @@ using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Models;
-
+using Shared.Helpers;
 namespace Presentation.Controllers
 {
     public class CustomerController : Controller
@@ -54,15 +54,15 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        [Route("bulk")]
-        public IActionResult BulkPost([FromBody] List<AddCustomerDTO> requests)
+        public IActionResult BulkPost(IFormFile file)
         {
             try
             {
-                _customerRepo.AddBulk(_stateHelper.User().Id, requests);
+                var customers = CsvHelperMethods.ReadCsvFile<AddCustomerDTO>(file);
+                _customerRepo.AddBulk(_stateHelper.User().Id, customers);
                 return Ok(new ResponseModel { Message = "Customers added successfully." });
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidDataException ex)
             {
                 return Ok(new ResponseModel { Status = false, Message = ex.Message });
             }
@@ -71,6 +71,8 @@ namespace Presentation.Controllers
                 return Ok(new ResponseModel { Status = false, Message = "An error occurred while adding customers." });
             }
         }
+
+
         [HttpPut]
         public IActionResult Put([FromBody] UpdateCustomerDTO request)
         {
