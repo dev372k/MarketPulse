@@ -55,7 +55,7 @@
     <form id="importcustomerForm">
         <div class="form-group my">
             <label>Name</label>
-            <input type="file" class="form-control" id="customer_name" name="file" />
+            <input type="file" class="form-control" id="file_name" name="file" />
         </div>
         <div class="form-group d-grid my">
             <input type="submit" value="Export" class="btn btn-primary" />
@@ -70,7 +70,7 @@
 
         $(document).ready(() => {
             const validation = new window.JustValidate('#customerForm');
-            const exportformValidation = new window.JustValidate('#importcustomerForm');
+            const importformValidation = new window.JustValidate('#importcustomerForm');
 
             validation
                 .addField('#customer_name', [
@@ -134,6 +134,28 @@
                     }
                 });
 
+            importformValidation
+              
+                .addField('#file_name', [
+                    {
+                        rule: 'minFilesCount',
+                        value: 1,
+                        errorMessage: 'File is required',
+                    },
+                    {
+                        rule: 'files',
+                        value: {
+                            files: {
+                                extensions: ['csv'],
+                            },
+                        },
+                        errorMessage: 'Only CSV files are allowed',
+                    }
+                ])
+                .onSuccess((event) => {
+                    event.preventDefault();
+                    alert('Import form submitted successfully');
+                });
 
             $('#openModal').modaal({
                 content_source: '#modaal-content',
@@ -156,7 +178,6 @@
 
                 }
             });
-
             grid = new gridjs.Grid({
                 columns: ["Name", "Email", "Phone", "Group(s)", "Action"],
                 server: {
