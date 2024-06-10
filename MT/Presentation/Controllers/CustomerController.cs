@@ -3,6 +3,7 @@ using Application.Abstractions.Interfaces;
 using Application.DTOs;
 using Application.Implementations;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Models;
@@ -52,6 +53,24 @@ namespace Presentation.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("bulk")]
+        public IActionResult BulkPost([FromBody] List<AddCustomerDTO> requests)
+        {
+            try
+            {
+                _customerRepo.AddBulk(_stateHelper.User().Id, requests);
+                return Ok(new ResponseModel { Message = "Customers added successfully." });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Ok(new ResponseModel { Status = false, Message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return Ok(new ResponseModel { Status = false, Message = "An error occurred while adding customers." });
+            }
+        }
         [HttpPut]
         public IActionResult Put([FromBody] UpdateCustomerDTO request)
         {
