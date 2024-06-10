@@ -1,15 +1,15 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
-using System.Formats.Asn1;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 
 public static class CsvHelperMethods
 {
-    public static List<AddCustomerDTO> ReadCsvFile(IFormFile file)
+    public static List<T> ReadCsvFile<T>(IFormFile file) where T : class
     {
         if (file == null || file.Length == 0)
         {
@@ -24,16 +24,8 @@ public static class CsvHelperMethods
             HeaderValidated = null     // Ignore header validation
         }))
         {
-            return csv.GetRecords<AddCustomerDTO>().ToList();
+            var records = csv.GetRecords<T>().ToList();
+            return records;
         }
     }
-}
-
-public class AddCustomerDTO
-{
-    public string Name { get; set; }
-    public string Email { get; set; }
-    public string Phone { get; set; }
-    // Assuming you have a Groups property, you might want to adjust this if your CSV doesn't include it
-    public List<string> Groups { get; set; } = new List<string>();
 }

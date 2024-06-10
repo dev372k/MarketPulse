@@ -52,13 +52,13 @@
     <div class="text-center">
         <h3>Import Customers</h3>
     </div>
-    <form id="importcustomerForm">
+    <form id="importcustomerForm" enctype="multipart/form-data">
         <div class="form-group my">
-            <label>Name</label>
-            <input type="file" class="form-control" id="file_name" name="file" />
+            <label for="file_name">Upload CSV File</label>
+            <input type="file" class="form-control" id="file_name" name="file" accept=".csv" required />
         </div>
         <div class="form-group d-grid my">
-            <input type="submit" value="Export" class="btn btn-primary" />
+            <input type="submit" value="Import" class="btn btn-primary" />
         </div>
     </form>
 </div>
@@ -133,9 +133,7 @@
                             .catch(error => console.error(error));
                     }
                 });
-
             importformValidation
-              
                 .addField('#file_name', [
                     {
                         rule: 'minFilesCount',
@@ -154,30 +152,51 @@
                 ])
                 .onSuccess((event) => {
                     event.preventDefault();
-                    alert('Import form submitted successfully');
+                    var formData = new FormData(document.getElementById('importcustomerForm'));
+                    fetch('/Customer/BulkPost', { // Make sure the endpoint URL matches the controller action
+                        method: 'POST', // Use POST method for form submission
+                        body: formData
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.Status === false) {
+                                alert('Error: ' + data.Message);
+                            } else {
+                                alert(data.Message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while importing customers.');
+                        });
                 });
 
             $('#openModal').modaal({
                 content_source: '#modaal-content',
                 after_close: function () {
-                    $("#customerForm").trigger("reset")
+                    $("#customerForm").trigger("reset");
                     slimSelectInstance.set([]);
                 },
                 before_open: function () {
-                    renderDropdown()
-                    // slimSelectInstance.set([])
+                    renderDropdown();
                 }
             });
 
             $('#openImportModal').modaal({
                 content_source: '#import-modaal-content',
                 after_close: function () {
-
+                    // Optionally add any actions after closing the modal
                 },
                 before_open: function () {
-
+                    // Optionally add any actions before opening the modal
                 }
             });
+
             grid = new gridjs.Grid({
                 columns: ["Name", "Email", "Phone", "Group(s)", "Action"],
                 server: {
