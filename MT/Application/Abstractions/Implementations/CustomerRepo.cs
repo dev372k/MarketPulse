@@ -66,7 +66,48 @@ namespace Application.Abstractions.Implementations
         
         public async Task AddBulk(int userId, List<AddCustomerDTO> dtos)
         {
+<<<<<<< HEAD
             //await _context.Customers.AddRangeAsync();
+=======
+            if (dtos == null || !dtos.Any())
+                throw new Exception("The customer DTO list cannot be null or empty.");
+            try
+            {
+                List<Customer> customersToAdd = new List<Customer>();
+
+                var customerEmails = _context.Customers
+                    .Where(_ => _.UserId == userId)
+                    .Select(_ => _.Email)   
+                    .ToList();
+
+                foreach (var dto in dtos)
+                {
+                    if (!customerEmails.Contains(dto.Email))
+                    {
+                        var customer = new Customer
+                        {
+                            Name = dto.Name,
+                            Email = dto.Email,
+                            Phone = dto.Phone,
+                            CreatedOn = DateTime.UtcNow,
+                            UserId = userId
+                        };
+
+                        customersToAdd.Add(customer);
+                    }
+                }
+
+                if (customersToAdd.Any())
+                {
+                     _context.Customers.AddRange(customersToAdd);
+                     _context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+>>>>>>> 6eb84230ac5cb90a1abdc7a1e6edc5d81509e450
         }
 
         public void Update(int userId, UpdateCustomerDTO dto)

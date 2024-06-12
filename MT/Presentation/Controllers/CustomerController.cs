@@ -6,7 +6,7 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Models;
-
+using Shared.Helpers;
 namespace Presentation.Controllers
 {
     public class CustomerController : Controller
@@ -52,6 +52,25 @@ namespace Presentation.Controllers
             }
         }
 
+<<<<<<< HEAD
+=======
+        [HttpPost]
+        public IActionResult BulkPost(IFormFile file)
+        {
+            try
+            {
+                var customers = CsvHelperMethods.ReadCsvFile<AddCustomerDTO>(file);
+                _customerRepo.AddBulk(_stateHelper.User().Id, customers);
+                return Ok(new ResponseModel { Message = "Customers added successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new ResponseModel { Status = false, Message = ex.Message});
+            }
+        }
+
+
+>>>>>>> 6eb84230ac5cb90a1abdc7a1e6edc5d81509e450
         [HttpPut]
         public IActionResult Put([FromBody] UpdateCustomerDTO request)
         {

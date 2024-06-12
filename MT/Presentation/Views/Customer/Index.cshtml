@@ -52,13 +52,18 @@
     <div class="text-center">
         <h3>Import Customers</h3>
     </div>
-    <form id="importcustomerForm">
+    <form id="importcustomerForm" enctype="multipart/form-data">
         <div class="form-group my">
+<<<<<<< HEAD
             <label>Name</label>
             <input type="file" class="form-control" id="customer_name" name="file" />
+=======
+            <label for="file_name">Upload CSV File</label>
+            <input type="file" class="form-control" id="file_name" name="file" accept=".csv" required />
+>>>>>>> 6eb84230ac5cb90a1abdc7a1e6edc5d81509e450
         </div>
         <div class="form-group d-grid my">
-            <input type="submit" value="Export" class="btn btn-primary" />
+            <input type="submit" value="Import" class="btn btn-primary" />
         </div>
     </form>
 </div>
@@ -133,27 +138,72 @@
                             .catch(error => console.error(error));
                     }
                 });
+<<<<<<< HEAD
 
+=======
+            importformValidation
+                .addField('#file_name', [
+                    {
+                        rule: 'minFilesCount',
+                        value: 1,
+                        errorMessage: 'File is required',
+                    },
+                    {
+                        rule: 'files',
+                        value: {
+                            files: {
+                                extensions: ['csv'],
+                            },
+                        },
+                        errorMessage: 'Only CSV files are allowed',
+                    }
+                ])
+                .onSuccess((event) => {
+                    event.preventDefault();
+                    loading("show")
+                    var formData = new FormData(document.getElementById('importcustomerForm'));
+                    fetch('/Customer/BulkPost', { 
+                        method: 'POST', 
+                        body: formData
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            grid.forceRender()
+                            $('#openImportModal').modaal('close');
+                            loading("hide")
+                            if (data.status)
+                                alertify.success(data.message);
+                            else
+                                alertify.error(data.message);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while importing customers.');
+                        });
+                });
+>>>>>>> 6eb84230ac5cb90a1abdc7a1e6edc5d81509e450
 
             $('#openModal').modaal({
                 content_source: '#modaal-content',
                 after_close: function () {
-                    $("#customerForm").trigger("reset")
+                    $("#customerForm").trigger("reset");
                     slimSelectInstance.set([]);
                 },
                 before_open: function () {
-                    renderDropdown()
-                    // slimSelectInstance.set([])
+                    renderDropdown();
                 }
             });
 
             $('#openImportModal').modaal({
                 content_source: '#import-modaal-content',
                 after_close: function () {
-
                 },
                 before_open: function () {
-
                 }
             });
 
