@@ -62,13 +62,9 @@ namespace Presentation.Controllers
                 _customerRepo.AddBulk(_stateHelper.User().Id, customers);
                 return Ok(new ResponseModel { Message = "Customers added successfully." });
             }
-            catch (InvalidDataException ex)
+            catch (Exception ex)
             {
-                return Ok(new ResponseModel { Status = false, Message = ex.Message });
-            }
-            catch (Exception)
-            {
-                return Ok(new ResponseModel { Status = false, Message = "An error occurred while adding customers." });
+                return Ok(new ResponseModel { Status = false, Message = ex.Message});
             }
         }
 

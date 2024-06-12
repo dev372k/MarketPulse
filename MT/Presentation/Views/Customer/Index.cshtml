@@ -152,9 +152,10 @@
                 ])
                 .onSuccess((event) => {
                     event.preventDefault();
+                    loading("show")
                     var formData = new FormData(document.getElementById('importcustomerForm'));
-                    fetch('/Customer/BulkPost', { // Make sure the endpoint URL matches the controller action
-                        method: 'POST', // Use POST method for form submission
+                    fetch('/Customer/BulkPost', { 
+                        method: 'POST', 
                         body: formData
                     })
                         .then(response => {
@@ -164,11 +165,13 @@
                             return response.json();
                         })
                         .then(data => {
-                            if (data.Status === false) {
-                                alert('Error: ' + data.Message);
-                            } else {
-                                alert(data.Message);
-                            }
+                            grid.forceRender()
+                            $('#openImportModal').modaal('close');
+                            loading("hide")
+                            if (data.status)
+                                alertify.success(data.message);
+                            else
+                                alertify.error(data.message);
                         })
                         .catch(error => {
                             console.error('Error:', error);
