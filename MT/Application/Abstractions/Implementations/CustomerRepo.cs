@@ -66,30 +66,40 @@ namespace Application.Abstractions.Implementations
 
         public async Task AddBulk(int userId, List<AddCustomerDTO> dtos)
         {
+            if (dtos == null || !dtos.Any())
+                throw new Exception("The customer DTO list cannot be null or empty.");
+
             try
             {
                 List<Customer> customersToAdd = new List<Customer>();
 
-                //var isExist = _context.Customers.Any(_ => dtos.Select(_ => _.Email) _.Email && _.UserId == userId);
+                var customerEmails = _context.Customers
+                    .Where(_ => _.UserId == userId)
+                    .Select(_ => _.Email)   
+                    .ToList();
+
                 foreach (var dto in dtos)
                 {
-                    //if (isExist)
-                    //    throw new InvalidOperationException($"Email {dto.Email} already exists");
-
-                    var customer = new Customer
+                    if (!customerEmails.Contains(dto.Email))
                     {
-                        Name = dto.Name,
-                        Email = dto.Email,
-                        Phone = dto.Phone,
-                        CreatedOn = DateTime.UtcNow,
-                        UserId = userId
-                    };
+                        var customer = new Customer
+                        {
+                            Name = dto.Name,
+                            Email = dto.Email,
+                            Phone = dto.Phone,
+                            CreatedOn = DateTime.UtcNow,
+                            UserId = userId
+                        };
 
-                    customersToAdd.Add(customer);
+                        customersToAdd.Add(customer);
+                    }
                 }
 
-                await _context.Customers.AddRangeAsync(customersToAdd);
-                await _context.SaveChangesAsync();
+                if (customersToAdd.Any())
+                {
+                     _context.Customers.AddRange(customersToAdd);
+                     _context.SaveChanges();
+                }
             }
             catch (Exception ex)
             {
