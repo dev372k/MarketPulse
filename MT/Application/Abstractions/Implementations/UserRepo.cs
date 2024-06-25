@@ -66,6 +66,7 @@ namespace Application.Implementations
             {
                 user.Name = dto.Name;
                 user.Address = dto.Address;
+                user.Phone = dto.Phone;
                 user.City = dto.City;
                 user.State = dto.State;
                 user.Country = dto.Country;
