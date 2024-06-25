@@ -54,13 +54,8 @@
     </div>
     <form id="importcustomerForm" enctype="multipart/form-data">
         <div class="form-group my">
-<<<<<<< HEAD
-            <label>Name</label>
-            <input type="file" class="form-control" id="customer_name" name="file" />
-=======
             <label for="file_name">Upload CSV File</label>
             <input type="file" class="form-control" id="file_name" name="file" accept=".csv" required />
->>>>>>> 6eb84230ac5cb90a1abdc7a1e6edc5d81509e450
         </div>
         <div class="form-group d-grid my">
             <input type="submit" value="Import" class="btn btn-primary" />
@@ -75,7 +70,7 @@
 
         $(document).ready(() => {
             const validation = new window.JustValidate('#customerForm');
-            const exportformValidation = new window.JustValidate('#importcustomerForm');
+            const importformValidation = new window.JustValidate('#importcustomerForm');
 
             validation
                 .addField('#customer_name', [
@@ -138,9 +133,7 @@
                             .catch(error => console.error(error));
                     }
                 });
-<<<<<<< HEAD
 
-=======
             importformValidation
                 .addField('#file_name', [
                     {
@@ -186,7 +179,6 @@
                             alert('An error occurred while importing customers.');
                         });
                 });
->>>>>>> 6eb84230ac5cb90a1abdc7a1e6edc5d81509e450
 
             $('#openModal').modaal({
                 content_source: '#modaal-content',

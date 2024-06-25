@@ -25,6 +25,12 @@ namespace Application.Implementations
             {
                 Name = dto.Name,
                 Email = dto.Email,
+                Phone = dto.Phone,
+                Address = dto.Address,
+                City = dto.City,
+                State = dto.State,
+                Country = dto.Country,
+                
                 PasswordHash = SecurityHelper.GenerateHash(dto.Password),
                 SubscriptionType = Shared.enSubscriptionType.Free,
                 PlanExpiry = DateTime.Now.AddMonths(1)
@@ -41,6 +47,11 @@ namespace Application.Implementations
                 Email = _.Email,
                 Name = _.Name,
                 Password = _.PasswordHash,
+                Phone = _.Phone,
+                Address = _.Address,
+                City = _.City,
+                State = _.State,
+                Country = _.Country,
                 SubscriptionType = Shared.enSubscriptionType.Free,
                 PlanExpiry = _.PlanExpiry,
                 IsExpired = _.PlanExpiry.Subtract(DateTime.Now).TotalDays <= 0 ? true: false,
@@ -54,6 +65,11 @@ namespace Application.Implementations
             if (user != null)
             {
                 user.Name = dto.Name;
+                user.Address = dto.Address;
+                user.City = dto.City;
+                user.State = dto.State;
+                user.Country = dto.Country;
+
                 _context.SaveChanges();
             }
         }
@@ -66,6 +82,11 @@ namespace Application.Implementations
                 Email = _.Email,
                 Name = _.Name,
                 Password = _.PasswordHash,
+                Phone = _.Phone,
+                Address = _.Address,
+                City = _.City,
+                State = _.State,
+                Country = _.Country,
                 SubscriptionType = Shared.enSubscriptionType.Free,
                 PlanExpiry = _.CreatedOn.AddMonths(1),
                 IsExpired = _.CreatedOn.AddMonths(1).Subtract(DateTime.Now).TotalDays <= 0 ? true : false,

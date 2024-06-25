@@ -52,8 +52,6 @@ namespace Presentation.Controllers
             }
         }
 
-<<<<<<< HEAD
-=======
         [HttpPost]
         public IActionResult BulkPost(IFormFile file)
         {
@@ -70,7 +68,6 @@ namespace Presentation.Controllers
         }
 
 
->>>>>>> 6eb84230ac5cb90a1abdc7a1e6edc5d81509e450
         [HttpPut]
         public IActionResult Put([FromBody] UpdateCustomerDTO request)
         {
