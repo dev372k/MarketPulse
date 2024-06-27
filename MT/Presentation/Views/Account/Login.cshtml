@@ -4,6 +4,20 @@
     ViewData["Title"] = "Login";
     Layout = "_AccountLayout";
 }
+
+<style>
+    .google-signin-container {
+        display: grid;
+        width: 100%; /* Ensure the container takes full width */
+        justify-content: center; /* Center the button horizontally */
+    }
+
+    .google-signin-button {
+        width: 100% !important; /* Make the button take full width */
+        height: 50px !important; /* Adjust the height */
+    }
+</style>
+
 <div class="account-container">
     <div class="login-form">
         <div class="text-center">
@@ -24,6 +38,7 @@
             </div>
             <div class="form-group d-grid my">
                 <input type="submit" value="Login" class="btn btn-primary" />
+                <div id="buttonDiv"></div>
             </div>
             <div class="text-center">
                 <p>Don't have an account? <a href="@Url.Action("Register", "Account")">Register</a></p>
@@ -35,3 +50,37 @@
         <p>Enter your personal details and start your journey with us.</p>
     </div>
 </div>
+
+@section scripts {
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+        function handleCredentialResponse(response) {
+            const idToken = response.credential;
+            // Call your backend to verify the ID token
+            fetch('@Url.Action("google", "Account")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ idToken })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('JWT token:', data.token);
+                    // Save the token and use it to make authenticated requests to your API
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: '933017194074-dp2kaj9jolvebu8u14uluqms0mibj9e2.apps.googleusercontent.com',
+                callback: handleCredentialResponse
+            });
+            google.accounts.id.renderButton(
+                document.getElementById('buttonDiv'),
+                { theme: 'outline', size: 'large', width: '100%' } // customization options
+            );
+        };
+    </script>
+}

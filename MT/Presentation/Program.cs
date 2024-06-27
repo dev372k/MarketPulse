@@ -21,7 +21,14 @@ builder.Services.AddSession(opt =>
 {
     opt.IdleTimeout = TimeSpan.FromMinutes(30);
 });
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = "933017194074-dp2kaj9jolvebu8u14uluqms0mibj9e2.apps.googleusercontent.com";
+        googleOptions.ClientSecret = "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";
+    })
+    .AddCookie();
+
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<StateHelper>();

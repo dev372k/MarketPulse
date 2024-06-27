@@ -10,6 +10,8 @@ using Application.Implementations;
 using Presentation.Models;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using AspNetCoreHero.ToastNotification.Notyf;
+using Persistence.Entities;
+using Google.Apis.Auth;
 
 namespace Presentation.Controllers
 {
@@ -83,7 +85,6 @@ namespace Presentation.Controllers
                 {
                     new Claim(ClaimTypes.NameIdentifier, model.Email),
                     new Claim(ClaimTypes.Name, model.Email),
-                    //new Claim(ClaimTypes.Role, ((enRole)user.Role).ToString()),
                     new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(user))
                 }, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -93,8 +94,46 @@ namespace Presentation.Controllers
                 if (!String.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     return Redirect(model.ReturnUrl);
                 else
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Login", "Home");
             }
+        }
+
+        [HttpPost("google")]
+        public async Task<IActionResult> Google([FromBody] GoogleAuthDto authDto)
+        {
+            var payload = await GoogleJsonWebSignature.ValidateAsync(authDto.IdToken);
+            if (payload == null)
+                return RedirectToAction("Index", "Account");
+
+            var user = _userRepo.Get(payload.Email);
+
+            if (user == null)
+                _userRepo.Add(new RegisterDTO
+                {
+                    Email = payload.Email,
+                    Name = payload.Name,
+
+                });
+            else
+            {
+                user = new GetUserDTO
+                {
+                    Email = payload.Email,
+                    Name = payload.Name
+                };
+            }
+
+
+            var identity = new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, payload.Email),
+                new Claim(ClaimTypes.Name, payload.Email),
+                new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(user))
+            }, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var principal = new ClaimsPrincipal(identity);
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -117,5 +156,10 @@ namespace Presentation.Controllers
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
         }
+    }
+
+    public class GoogleAuthDto
+    {
+        public string IdToken { get; set; }
     }
 }
