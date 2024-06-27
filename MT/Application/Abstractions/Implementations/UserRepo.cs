@@ -15,7 +15,7 @@ namespace Application.Implementations
             _context = context;
         }
 
-        public void Add(RegisterDTO dto)
+        public int Add(RegisterDTO dto)
         {
             var userExist = Get(dto.Email);
             if (userExist != null)
@@ -37,6 +37,8 @@ namespace Application.Implementations
             };
             _context.Users.Add(user);
             _context.SaveChanges();
+
+            return user.Id;
         }
 
         public GetUserDTO Get(string email)

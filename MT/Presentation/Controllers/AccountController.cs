@@ -108,16 +108,16 @@ namespace Presentation.Controllers
             var user = _userRepo.Get(payload.Email);
 
             if (user == null)
-                _userRepo.Add(new RegisterDTO
+            {
+                var userId = _userRepo.Add(new RegisterDTO
                 {
                     Email = payload.Email,
                     Name = payload.Name,
 
                 });
-            else
-            {
                 user = new GetUserDTO
                 {
+                    Id = userId,
                     Email = payload.Email,
                     Name = payload.Name
                 };
