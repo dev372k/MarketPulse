@@ -4,20 +4,37 @@
     ViewData["Title"] = "Login";
     Layout = "_AccountLayout";
 }
-
 <style>
-    .google-signin-container {
-        display: grid;
-        width: 100%; /* Ensure the container takes full width */
-        justify-content: center; /* Center the button horizontally */
+    .google-login {
+        width: 100%; /* Make container full width */
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .google-signin-button {
-        width: 100% !important; /* Make the button take full width */
-        height: 50px !important; /* Adjust the height */
+    .separator {
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        color: #666;
+        margin: 10px 0;
+        position: relative;
+    }
+
+
+    .custom-google-button {
+        width: 100% !important; /* Force width to match container */
+        height: 42px !important; /* Adjust height to match login button */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px !important;
+        border-radius: 5px !important;
+        font-size: 16px !important;
+        text-align: center;
+        color: #000 !important; /* Adjust text color if needed */
     }
 </style>
-
 <div class="account-container">
     <div class="login-form">
         <div class="text-center">
@@ -38,7 +55,8 @@
             </div>
             <div class="form-group d-grid my">
                 <input type="submit" value="Login" class="btn btn-primary" />
-                <div id="buttonDiv"></div>
+                <div class="separator">or</div>
+                <div id="google-login"></div>
             </div>
             <div class="text-center">
                 <p>Don't have an account? <a href="@Url.Action("Register", "Account")">Register</a></p>
@@ -56,7 +74,6 @@
     <script>
         function handleCredentialResponse(response) {
             const idToken = response.credential;
-            // Call your backend to verify the ID token
             fetch('@Url.Action("google", "Account")', {
                 method: 'POST',
                 headers: {
@@ -66,8 +83,7 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('JWT token:', data.token);
-                    // Save the token and use it to make authenticated requests to your API
+                    window.location.replace(data.url)
                 })
                 .catch(error => console.error('Error:', error));
         }
@@ -78,9 +94,11 @@
                 callback: handleCredentialResponse
             });
             google.accounts.id.renderButton(
-                document.getElementById('buttonDiv'),
-                { theme: 'outline', size: 'large', width: '100%' } // customization options
+                document.getElementById('google-login'),
+                { theme: 'outline', size: 'large', width: '200px' }
             );
+            const googleLoginButton = document.getElementById('google-login').firstChild;
+            googleLoginButton.classList.add('custom-google-button');
         };
     </script>
 }

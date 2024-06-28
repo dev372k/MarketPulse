@@ -30,8 +30,7 @@ namespace Application.Implementations
                 City = dto.City,
                 State = dto.State,
                 Country = dto.Country,
-                
-                PasswordHash = SecurityHelper.GenerateHash(dto.Password),
+                PasswordHash = !string.IsNullOrEmpty(dto.Password) ? SecurityHelper.GenerateHash(dto.Password) : "",
                 SubscriptionType = Shared.enSubscriptionType.Free,
                 PlanExpiry = DateTime.Now.AddMonths(1)
             };
@@ -56,7 +55,7 @@ namespace Application.Implementations
                 Country = _.Country,
                 SubscriptionType = Shared.enSubscriptionType.Free,
                 PlanExpiry = _.PlanExpiry,
-                IsExpired = _.PlanExpiry.Subtract(DateTime.Now).TotalDays <= 0 ? true: false,
+                IsExpired = _.PlanExpiry.Subtract(DateTime.Now).TotalDays <= 0 ? true : false,
             }).FirstOrDefault();
             return user;
         }
@@ -102,7 +101,7 @@ namespace Application.Implementations
         public void UpdateStatus(int userId, bool status)
         {
             var user = _context.Users.FirstOrDefault(_ => _.Id == userId);
-            if(user != null)
+            if (user != null)
             {
                 user.IsDeleted = status;
                 _context.SaveChanges();

@@ -114,6 +114,7 @@ namespace Presentation.Controllers
                     Email = payload.Email,
                     Name = payload.Name,
 
+
                 });
                 user = new GetUserDTO
                 {
@@ -133,7 +134,7 @@ namespace Presentation.Controllers
 
             var principal = new ClaimsPrincipal(identity);
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-            return RedirectToAction("Index", "Home");
+            return Ok(new {URL = "/home/index" });
         }
 
 
