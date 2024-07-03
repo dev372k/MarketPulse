@@ -37,6 +37,8 @@ builder.Services.AddScoped<IGroupRepo, GroupRepo>();
 builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
 builder.Services.AddScoped<ICampaignRepo, CampaignRepo>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<ICapchaService,CapchaService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

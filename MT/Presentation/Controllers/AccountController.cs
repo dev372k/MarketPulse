@@ -12,6 +12,7 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using AspNetCoreHero.ToastNotification.Notyf;
 using Persistence.Entities;
 using Google.Apis.Auth;
+using Application.Services;
 
 namespace Presentation.Controllers
 {
@@ -19,15 +20,18 @@ namespace Presentation.Controllers
     {
         private IUserRepo _userRepo;
         private StateHelper _stateHelper;
+        private ICapchaService _capchaService;
         private readonly INotyfService _notyf;
 
         public AccountController(IUserRepo userRepo,
             INotyfService notyf,
-             StateHelper stateHelper)
+             StateHelper stateHelper,
+             ICapchaService capchaService)
         {
             _userRepo = userRepo;
             _notyf = notyf;
             _stateHelper = stateHelper;
+            _capchaService = capchaService;
         }
 
         [HttpGet]
@@ -60,8 +64,15 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginDTO model)
+        public async Task<IActionResult> Login(LoginDTO model)
         {
+            var isValid = await _capchaService.IsValidAsync(model.Token);
+            if (!isValid)
+            {
+                _notyf.Error("Invalid capcha");
+                return View();
+            }
+
             var user = _userRepo.Get(model.Email);
 
             if (user == null)
@@ -94,7 +105,7 @@ namespace Presentation.Controllers
                 if (!String.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     return Redirect(model.ReturnUrl);
                 else
-                    return RedirectToAction("Login", "Home");
+                    return RedirectToAction("Index", "Home");
             }
         }
 
@@ -134,7 +145,7 @@ namespace Presentation.Controllers
 
             var principal = new ClaimsPrincipal(identity);
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-            return Ok(new {URL = "/home/index" });
+            return Ok(new { URL = "/home/index" });
         }
 
 
@@ -163,4 +174,5 @@ namespace Presentation.Controllers
     {
         public string IdToken { get; set; }
     }
+
 }

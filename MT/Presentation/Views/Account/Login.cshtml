@@ -35,6 +35,7 @@
         color: #000 !important; /* Adjust text color if needed */
     }
 </style>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <div class="account-container">
     <div class="login-form">
         <div class="text-center">
@@ -42,6 +43,7 @@
         </div>
         <form asp-action="Login">
             <input type="hidden" asp-for="ReturnUrl" value="@ViewData["ReturnUrl"]" />
+            <input type="hidden" asp-for="Token" id="recaptcha-token" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
@@ -53,6 +55,7 @@
                 <input type="password" asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+            <div class="g-recaptcha" data-sitekey="6LfnbwYqAAAAANZ-zzQDTXCm62VdNwGf2aA1KX3n" data-callback="onSubmit"></div>
             <div class="form-group d-grid my">
                 <input type="submit" value="Login" class="btn btn-primary" />
                 <div class="separator">or</div>
@@ -71,6 +74,7 @@
 
 @section scripts {
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <script>
         function handleCredentialResponse(response) {
             const idToken = response.credential;
@@ -100,5 +104,10 @@
             const googleLoginButton = document.getElementById('google-login').firstChild;
             googleLoginButton.classList.add('custom-google-button');
         };
+
+        function onSubmit(token) {
+            document.getElementById("recaptcha-token").value = token;
+            document.getElementById("loginForm").submit();
+        }
     </script>
 }
